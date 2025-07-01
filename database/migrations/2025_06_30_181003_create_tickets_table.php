@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('ticket_category_id')
             ->references('id')
-            ->on('ticket_catgories')
+            ->on('ticket_categories')
             ->onDelete('cascade');
         });
     }
