@@ -48,7 +48,7 @@ class Locations extends Model
 
     public function ticket()
     {
-        return $this->belongsToMany(Ticket::class, 'location_ticket/','location_id','ticket_id')
+        return $this->belongsToMany(Ticket::class, 'location_ticket','location_id','ticket_id')
             ->withPivot('ticket_category_id')
             ->withTimestamps();
     }
