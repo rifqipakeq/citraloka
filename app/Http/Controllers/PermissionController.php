@@ -15,10 +15,10 @@ class PermissionController extends Controller
     public static function middleware()
     {
         return [
-            new Middleware('permission:permission index', only: ['index']),
-            new Middleware('permission:permission create', only: ['create', 'store']),
-            new Middleware('permission:permission edit', only: ['edit', 'update']),
-            new Middleware('permission:permission delete', only: ['destroy'])
+            new Middleware('permission:permissions index', only: ['index']),
+            new Middleware('permission:permissions create', only: ['create', 'store']),
+            new Middleware('permission:permissions edit', only: ['edit', 'update']),
+            new Middleware('permission:permissions delete', only: ['destroy'])
         ];
     }
 
@@ -30,7 +30,7 @@ class PermissionController extends Controller
             ->latest()
             ->paginate(6)->withQueryString();
 
-            return inertia('Permission/Index', ['permission' => $permissions, 'filters' => $request->only(['search'])]);
+            return inertia('Permissions/Index', ['permissions' => $permissions, 'filters' => $request->only(['search'])]);
     }
 
     /**
@@ -38,7 +38,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return inertia('Permission/Create');
+        return inertia('Permissions/Create');
     }
 
     /**
@@ -58,7 +58,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        return inertia('Permission/Edit', ['permission' => $permission]);
+        return inertia('Permissions/Edit', ['permission' => $permission]);
     }
 
     /**
@@ -66,11 +66,11 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        $request->validate(['name' => 'required|min:3|max:255|unique:permissions,name'.$permission->id]);
+        $request->validate(['name' => 'required|min:3|max:255|unique:permissions,name,'.$permission->id]);
 
         $permission->update(['name' => $request->name]);
 
-        return to_route('permission.index');
+        return to_route('permissions.index');
     }
 
     /**

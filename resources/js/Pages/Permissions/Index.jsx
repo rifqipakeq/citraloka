@@ -7,7 +7,7 @@ import Button from "@/Components/Button";
 import Pagination from "@/Components/Pagination";
 import { Head, usePage } from "@inertiajs/react";
 import Search from "@/Components/Search";
-import hasAnyPermission from "@/Utils/Permission";
+import hasAnyPermission from "@/Utils/Permissions";
 
 export default function Index({ auth }) {
     const { permissions, filters } = usePage().props;

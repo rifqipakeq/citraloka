@@ -51,6 +51,6 @@ class User extends Authenticatable
     // function to get user role when first log in
     public function getUserPermission()
     {
-        return $this->gertAllPermissions()->mapWithKeys(fn($permission) => [$permission['name'] => true]);
+        return $this->getAllPermissions()->mapWithKeys(fn($permission) => [$permission['name'] => true]);
     }
 }

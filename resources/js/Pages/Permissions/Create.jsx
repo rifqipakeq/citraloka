@@ -4,7 +4,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Container from "@/Components/Container";
 import Input from "@/Components/Input";
 import Button from "@/Components/Button";
-import Button from "@/Components/Button";
 import { Head, useForm } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import Swal from "sweetalert2";
