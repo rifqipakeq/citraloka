@@ -14,10 +14,10 @@ class PermissionsTableSeeder extends Seeder
     public function run(): void
     {
         // permission user
-        Permission::create(['name' => 'user index','guard_name' => 'web']);
-        Permission::create(['name' => 'user create','guard_name' => 'web']);
-        Permission::create(['name' => 'user edit','guard_name' => 'web']);
-        Permission::create(['name' => 'user delete','guard_name' => 'web']);
+        Permission::create(['name' => 'users index','guard_name' => 'web']);
+        Permission::create(['name' => 'users create','guard_name' => 'web']);
+        Permission::create(['name' => 'users edit','guard_name' => 'web']);
+        Permission::create(['name' => 'users delete','guard_name' => 'web']);
 
         // permission role
         Permission::create(['name' => 'roles index','guard_name' => 'web']);
