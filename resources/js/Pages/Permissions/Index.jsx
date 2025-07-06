@@ -49,7 +49,7 @@ export default function Index({ auth }) {
                         </Table.Thead>
                         <Table.Tbody>
                             {permissions.data.map((permission, i) => (
-                                <tr key= {{ i }}>
+                                <tr key={{ i }}>
                                     <Table.Td>
                                         {++i +
                                             (permissions.current_page - 1) *
