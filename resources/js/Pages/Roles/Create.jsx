@@ -69,7 +69,7 @@ export default function Create({ auth }) {
                         <div className="mb-4">
                             <div className="grid grid-cols-2 gap-4">
                                 {Object.entries(permissions).map(
-                                    ([group, permissionItem], i) => (
+                                    ([group, permissionItems], i) => (
                                         <div
                                             key={i}
                                             className="p-4 bg-white rounded-lg shadow-md"
@@ -78,7 +78,7 @@ export default function Create({ auth }) {
                                                 {group}
                                             </h3>
                                             <div className="flex flex-wrap gap-2">
-                                                {permissionItem.map(
+                                                {permissionItems.map(
                                                     (permission) => (
                                                         <Checkbox
                                                             label={permission}

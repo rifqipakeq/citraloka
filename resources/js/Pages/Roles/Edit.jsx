@@ -13,14 +13,14 @@ export default function Edit({ auth }) {
 
     const { data, setData, post, errors } = useForm({
         name: role.name,
-        selectedPermission: role.permissions.map(
+        selectedPermissions: role.permissions.map(
             (permission) => permission.name
         ),
         _method: "put",
     });
 
-    const handleSelectedPermissions = async (e) => {
-        let items = data.selectedPermission;
+    const handleSelectedPermissions = (e) => {
+        let items = data.selectedPermissions;
 
         if (items.includes(e.target.value))
             items.splice(items.indexOf(e.target.value), 1);
@@ -28,7 +28,7 @@ export default function Edit({ auth }) {
         setData("selectedPermissions", items);
     };
 
-    const handleUpdateData = (e) => {
+    const handleUpdateData = async (e) => {
         e.preventDefault();
 
         post(route("roles.update", role.id), {
@@ -72,7 +72,7 @@ export default function Edit({ auth }) {
                         <div className="mb-4">
                             <div className="grid grid-cols-2 gap-4">
                                 {Object.entries(permissions).map(
-                                    ([group, permissionItem], i) => (
+                                    ([group, permissionItems], i) => (
                                         <div
                                             key={i}
                                             className="p-4 bg-white rounded-lg shadow-md"
@@ -81,7 +81,7 @@ export default function Edit({ auth }) {
                                                 {group}
                                             </h3>
                                             <div className="flex flex-wrap gap-2">
-                                                {permissionItem.map(
+                                                {permissionItems.map(
                                                     (permission) => (
                                                         <Checkbox
                                                             label={permission}
