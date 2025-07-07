@@ -37,7 +37,15 @@ export default function AuthenticatedLayout({ header, children }) {
                                         href={route("permissions.index")}
                                         active={route().current("permissions*")}
                                     >
-                                        permissions
+                                        Permissions
+                                    </NavLink>
+                                )}
+                                {hasAnyPermission(["roles index"]) && (
+                                    <NavLink
+                                        href={route("roles.index")}
+                                        active={route("roles*")}
+                                    >
+                                        Roles
                                     </NavLink>
                                 )}
                             </div>
@@ -151,6 +159,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                 active={route().current("permissions*")}
                             >
                                 permissions
+                            </NavLink>
+                        )}
+                        {hasAnyPermission(["roles index"]) && (
+                            <NavLink
+                                href={route("roles.index")}
+                                active={route().current("roles*")}
+                            >
+                                Roles
                             </NavLink>
                         )}
                     </div>

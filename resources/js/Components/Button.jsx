@@ -9,7 +9,7 @@ import {
 import React, { Children } from "react";
 import Swal from "sweetalert2";
 
-export default function Button() {
+export default function Button({ type, children, url, className, ...props }) {
     const { delete: destroy } = useForm();
 
     const handleDeleteData = async (url) => {
