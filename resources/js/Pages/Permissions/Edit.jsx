@@ -8,7 +8,7 @@ import { Head, useForm, usePage } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import Swal from "sweetalert2";
 
-export default function Edit(auth) {
+export default function Edit({auth}) {
     const { permission } = usePage().props;
 
     const { data, setData, post, errors } = useForm({

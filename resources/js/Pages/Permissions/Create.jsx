@@ -8,7 +8,7 @@ import { Head, useForm } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import Swal from "sweetalert2";
 
-export default function Create(auth) {
+export default function Create({auth}) {
     const { data, setData, post, errors } = useForm({
         name: "",
     });
