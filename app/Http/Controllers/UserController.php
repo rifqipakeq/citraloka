@@ -26,9 +26,9 @@ class UserController extends Controller implements HasMiddleware
     public function index(Request $request)
     {
         $users = User::with('roles')
-        ->when($request->search, fn($query) => $query->where('name', 'like', '%' . $request->search. '%'))
-        ->latest()
-        ->paginate(6);
+                ->when($request->search, fn($query) => $query->where('name', 'like', '%' . $request->search. '%'))
+                ->latest()
+                ->paginate(6);
 
         return inertia('Users/Index', ['users' => $users, 'filters' => $request->only(['search'])]);
     }
