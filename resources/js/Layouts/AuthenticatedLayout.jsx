@@ -56,6 +56,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                         Users
                                     </NavLink>
                                 )}
+                                {hasAnyPermission(["categories index"]) && (
+                                    <NavLink
+                                        href={route("categories.index")}
+                                        active={route().current("categories*")}
+                                    >
+                                        Categories
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -183,6 +191,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                 active={route().current("users*")}
                             >
                                 Users
+                            </ResponsiveNavLink>
+                        )}
+                        {hasAnyPermission(["categories index"]) && (
+                            <ResponsiveNavLink
+                                href={route("categories.index")}
+                                active={route().current("categories*")}
+                            >
+                                Categories
                             </ResponsiveNavLink>
                         )}
                     </div>
