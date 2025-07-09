@@ -23,10 +23,10 @@ class PermissionController extends Controller
     }
 
 
-    public function index($request)
+    public function index(Request $request)
     {
         $permissions = Permission::select('id','name')
-            ->where($request->search, fn($search) => $search->where('name','like', '%'. $request->search. '%'))
+            ->when($request->search, fn($query) => $query->where('name','like', '%'. $request->search. '%'))
             ->latest()
             ->paginate(6)->withQueryString();
 
@@ -66,7 +66,7 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        $request->validate(['name' => 'required|min:3|max:255|unique:permissions,name,'.$permission->id]);
+        $request->validate(['name' => 'required|min:3|max:255|unique:permissions,name,' . $permission->id]);
 
         $permission->update(['name' => $request->name]);
 

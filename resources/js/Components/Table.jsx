@@ -3,12 +3,22 @@ import React from "react";
 const Card = ({ title, className, children }) => {
     return (
         <>
-            <div clasName={`p-4 rounded-t-lg border ${className} bg-white`}>
-                <div className="flex -items-center gap-2 font-semibold text-sm text-gray-700 uppercase">
+            <div className={`p-4 rounded-t-lg border ${className} bg-white`}>
+                <div className="flex items-center gap-2 font-semibold text-sm text-gray-700 uppercase">
                     {title}
                 </div>
             </div>
             <div className="bg-white rounded-b-lg border-t-0">{children}</div>
+        </>
+    );
+};
+
+const Table = ({ children }) => {
+    return (
+        <>
+            <div className="w-full overflow-hidden overflow-x-auto border-collapse rounded-b-lg border border-t-0">
+                <table className="w-full text-sm">{children}</table>
+            </div>
         </>
     );
 };
@@ -50,7 +60,7 @@ const Empty = ({ colSpan, message, children }) => {
     return (
         <tr>
             <td colSpan={colSpan}>
-                <div className="flex-items-center justify-center h-96">
+                <div className="flex items-center justify-center h-96">
                     <div className="text-center">
                         {children}
                         <div className="mt-5">{message}</div>
@@ -64,8 +74,8 @@ const Empty = ({ colSpan, message, children }) => {
 Table.Card = Card;
 Table.Thead = Thead;
 Table.Tbody = Tbody;
-Table.Td = Td; 
-Table.Th = Th; 
-Table.Empty = Empty; 
+Table.Td = Td;
+Table.Th = Th;
+Table.Empty = Empty;
 
 export default Table;

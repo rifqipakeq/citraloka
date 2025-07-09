@@ -33,7 +33,7 @@ export default function Index({ auth }) {
                     <div className="w-full md:w-4.6">
                         <Search
                             url={route("permissions.index")}
-                            placeholder={"Search ermission data by name..."}
+                            placeholder={"Search Permission data by name..."}
                             filter={filters}
                         />
                     </div>
@@ -49,7 +49,7 @@ export default function Index({ auth }) {
                         </Table.Thead>
                         <Table.Tbody>
                             {permissions.data.map((permission, i) => (
-                                <tr key={{ i }}>
+                                <tr key={permission.id}>
                                     <Table.Td>
                                         {++i +
                                             (permissions.current_page - 1) *
