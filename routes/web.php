@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -30,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/users', UserController::class);
 
     Route::resource('/categories', CategoriesController::class);
+
+    Route::resource('/locations', LocationsController::class);
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
