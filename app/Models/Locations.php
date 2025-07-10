@@ -17,7 +17,7 @@ class Locations extends Model
         'description',
         'officehours',
         'category_id',
-        'region_id',
+        'ticket_id',
         'phone',
         'address',
         'latitude',
