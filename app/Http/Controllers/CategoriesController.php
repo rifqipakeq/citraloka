@@ -9,7 +9,7 @@ use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Support\Facades\Storage;
 
 
-class CategoriesController extends Controller
+class CategoriesController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {
