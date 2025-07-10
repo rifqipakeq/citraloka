@@ -106,7 +106,7 @@ class LocationsController extends Controller
         $categories = Categories::orderBy('name', 'ASC')->get();
         $tickets = Ticket::orderByRaw('CAST (SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')->get();
 
-        return inertia('Locations/Edit', ['categories' => $categories, 'tickets' => $tickets]);
+        return inertia('Locations/Edit', ['locations' => $location, 'categories' => $categories, 'tickets' => $tickets]);
     }
 
     /**
