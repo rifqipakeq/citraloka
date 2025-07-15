@@ -14,14 +14,14 @@ export default function Create({auth}) {
     });
 
     const handleStoreData = async () => {
-        e.preventDefault;
+        e.preventDefault();
 
         post(route("permissions.store"), {
             onSuccess: () => {
                 Swal.fire({
                     title: "Success",
                     text: "Data created successfully",
-                    icon: "Success",
+                    icon: "success",
                     showConfrimButton: false,
                     timer: 1500,
                 });

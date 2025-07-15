@@ -85,7 +85,7 @@ class TicketController extends Controller
     public function update(Request $request,Ticket $ticket)
     {
         $request->validate([
-            'name' => 'required|in:Regular, VIP',
+            'name' => 'required|in:Regular,VIP',
             'price_per_pack' => 'required|integer|min:0',
             'qty' => 'required|integer|min:1',
         ]);
