@@ -18,15 +18,15 @@ export default function Edit({ auth }) {
     });
 
     const handleUpdateData = async () => {
-        e.preventDefault;
+        e.preventDefault();
 
         post(route("categories.update", category.id), {
             onSuccess: () => {
                 Swal.fire({
                     title: "Success",
                     text: "Data updated successfully",
-                    icon: "Success",
-                    showConfrimButton: false,
+                    icon: "success",
+                    showConfirmButton: false,
                     timer: 1500,
                 });
             },

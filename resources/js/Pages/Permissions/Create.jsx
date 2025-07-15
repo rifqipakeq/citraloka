@@ -22,7 +22,7 @@ export default function Create({auth}) {
                     title: "Success",
                     text: "Data created successfully",
                     icon: "success",
-                    showConfrimButton: false,
+                    showConfirmButton: false,
                     timer: 1500,
                 });
             },

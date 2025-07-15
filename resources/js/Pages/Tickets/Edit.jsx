@@ -4,25 +4,28 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Container from "@/Components/Container";
 import Input from "@/Components/Input";
 import Button from "@/Components/Button";
-import { Head, useForm } from "@inertiajs/react";
+import { Head, useForm, usePage } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import Swal from "sweetalert2";
 
-export default function Create({ auth }) {
+export default function Edit({ auth }) {
+    const { ticket } = usePage().props;
+
     const { data, setData, post, errors, processing } = useForm({
-        name: "",
-        qty: "",
-        price_per_pack: "",
+        name: ticket.name,
+        qty: ticket.qty,
+        price_per_pack: ticket.price_per_pack,
+        _method: "put",
     });
 
-    const handleCreateData = (e) => {
+    const handleUpdateData = (e) => {
         e.preventDefault();
 
-        post(route("tickets.store"), {
+        post(route("tickets.update", ticket.id), {
             onSuccess: () => {
                 Swal.fire({
                     title: "Success",
-                    text: "Data created successfully",
+                    text: "Data updated successfully",
                     icon: "success",
                     showConfirmButton: false,
                     timer: 1500,
@@ -36,14 +39,14 @@ export default function Create({ auth }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Ticekts
+                    Tickets
                 </h2>
             }
         >
-            <Head title={"Create Ticekts"} />
+            <Head title={"Edit Tickets"} />
             <Container>
-                <Card title={"Create New Ticekts"}>
-                    <form onSubmit={handleCreateData}>
+                <Card title={"Edit New Tickets"}>
+                    <form onSubmit={handleUpdateData}>
                         <div className="mb-4">
                             <label className="block font-medium text-sm text-gray-700">
                                 Ticket Type
@@ -55,7 +58,6 @@ export default function Create({ auth }) {
                                     setData("name", e.target.value)
                                 }
                             >
-                                <option value="">Select Ticket Type</option>
                                 <option value="Regular">Regular</option>
                                 <option value="VIP">VIP</option>
                             </select>
@@ -76,7 +78,7 @@ export default function Create({ auth }) {
                                         "price_per_pack",
                                         e.target.value
                                             ? parseFloat(e.target.value)
-                                            : ""
+                                            : 0
                                     )
                                 }
                                 errors={errors.price_per_pack}
@@ -94,7 +96,7 @@ export default function Create({ auth }) {
                                         "qty",
                                         e.target.value
                                             ? parseInt(e.target.value)
-                                            : ""
+                                            : 0
                                     )
                                 }
                                 errors={errors.qty}
