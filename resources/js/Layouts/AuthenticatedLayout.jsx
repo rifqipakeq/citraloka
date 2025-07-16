@@ -80,12 +80,22 @@ export default function AuthenticatedLayout({ header, children }) {
                                         Tickets
                                     </NavLink>
                                 )}
+                                {hasAnyPermission(["transactions index"]) && (
+                                    <NavLink
+                                        href={route("transactions.index")}
+                                        active={route().current(
+                                            "transactions*"
+                                        )}
+                                    >
+                                        Transactions
+                                    </NavLink>
+                                )}
                                 {hasAnyPermission(["reviews index"]) && (
                                     <NavLink
                                         href={route("reviews.index")}
                                         active={route().current("reviews*")}
                                     >
-                                        Tickets
+                                        Reviews
                                     </NavLink>
                                 )}
                             </div>
@@ -241,12 +251,20 @@ export default function AuthenticatedLayout({ header, children }) {
                                 Tickets
                             </ResponsiveNavLink>
                         )}
+                        {hasAnyPermission(["transactions index"]) && (
+                                <ResponsiveNavLink
+                                    href={route("transactions.index")}
+                                    active={route().current("transactions*")}
+                                >
+                                    Transactions
+                                </ResponsiveNavLink>
+                        )}
                         {hasAnyPermission(["reviews index"]) && (
                             <ResponsiveNavLink
                                 href={route("reviews.index")}
                                 active={route().current("reviews*")}
                             >
-                                Tickets
+                                Reviews
                             </ResponsiveNavLink>
                         )}
                     </div>

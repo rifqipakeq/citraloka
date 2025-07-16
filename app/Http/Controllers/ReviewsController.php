@@ -11,7 +11,7 @@ use App\Models\Transaction;
 use App\Models\Locations;
 
 
-class ReviewsController extends Controller
+class ReviewsController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {

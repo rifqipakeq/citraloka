@@ -54,5 +54,7 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'tickets create','guard_name' => 'web']);
         Permission::create(['name' => 'tickets edit','guard_name' => 'web']);
         Permission::create(['name' => 'tickets delete','guard_name' => 'web']);
+
+        Permission::create(['name' => 'transactions index','guard_name' => 'web']);
     }
 }

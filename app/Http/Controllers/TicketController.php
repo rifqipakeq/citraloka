@@ -7,7 +7,7 @@ use App\Models\Ticket;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
-class TicketController extends Controller
+class TicketController extends Controller implements HasMiddleware
 {
     public static function middleware()
     {
