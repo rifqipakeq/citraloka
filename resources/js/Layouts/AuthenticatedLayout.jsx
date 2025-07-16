@@ -80,6 +80,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                         Tickets
                                     </NavLink>
                                 )}
+                                {hasAnyPermission(["reviews index"]) && (
+                                    <NavLink
+                                        href={route("reviews.index")}
+                                        active={route().current("reviews*")}
+                                    >
+                                        Tickets
+                                    </NavLink>
+                                )}
                             </div>
                         </div>
 
@@ -229,6 +237,14 @@ export default function AuthenticatedLayout({ header, children }) {
                             <ResponsiveNavLink
                                 href={route("tickets.index")}
                                 active={route().current("tickets*")}
+                            >
+                                Tickets
+                            </ResponsiveNavLink>
+                        )}
+                        {hasAnyPermission(["reviews index"]) && (
+                            <ResponsiveNavLink
+                                href={route("reviews.index")}
+                                active={route().current("reviews*")}
                             >
                                 Tickets
                             </ResponsiveNavLink>

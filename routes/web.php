@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\LocationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ReviewsController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
@@ -36,6 +37,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/locations', LocationsController::class);
 
     Route::resource('/tickets', TicketController::class);
+
+    Route::resource('/reviews', ReviewsController::class);
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
