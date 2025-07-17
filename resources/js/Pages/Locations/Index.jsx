@@ -1,18 +1,19 @@
 import React from "react";
 
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+
 import Container from "@/Components/Container";
 import Table from "@/Components/Table";
 import Button from "@/Components/Button";
 import Pagination from "@/Components/Pagination";
 import { Head, usePage } from "@inertiajs/react";
+import { useState } from "react";
 import Search from "@/Components/Search";
 import hasAnyPermission from "@/Utils/Permissions";
 
 export default function Index({ auth }) {
     const { locations, filters } = usePage().props;
 
-    // got bit different
     const [selectedImage, setSelectedImage] = useState(null);
 
     return (

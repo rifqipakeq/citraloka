@@ -40,7 +40,7 @@ class ReviewsController extends Controller implements HasMiddleware
 
         return inertia('Reviews/Index', [
             'reviews' => $reviews,
-            'filter' => $request->only(['search']),
+            'filters' => $request->only(['search']),
             'can' => [
                 'create' => $request->user()->can('reviews create'),
                 'edit' => $request->user()->can('reviews edit'),

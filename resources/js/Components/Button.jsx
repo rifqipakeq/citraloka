@@ -42,7 +42,7 @@ export default function Button({ type, children, url, className, ...props }) {
             {type === "add" && (
                 <Link
                     href={url}
-                    className="px-4 text-sm border rounded-lg bg-white text-gray-700 flex items-center gap-2 hover:bg-gray-100"
+                    className="px-4 py-2 text-sm border whitespace-nowrap rounded-lg bg-white text-gray-700 flex items-center gap-2 hover:bg-gray-100"
                 >
                     <IconPlus size={18} strokeWidth={1.5} />
                     <span className="hidden lg:flex">Create New Data</span>

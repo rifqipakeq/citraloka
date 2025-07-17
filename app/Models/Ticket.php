@@ -14,7 +14,6 @@ class Ticket extends Model
     protected $fillable = [
         'ticket_code',
         'name',
-        'ticket_category_id',
         'price_per_pack',
         'qty'
     ];

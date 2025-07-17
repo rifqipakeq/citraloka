@@ -23,8 +23,12 @@
     },
     "dependencies": {
         "@tabler/icons-react": "^3.34.0",
+        "@tinymce/tinymce-react": "^6.2.1",
         "clsx": "^2.1.1",
         "react-select": "^5.10.1",
-        "sweetalert2": "^11.22.2"
+        "sweetalert2": "^11.22.2",
+        "tinymce": "^7.9.1",
+        "@shadcn/ui": "^0.0.4",
+        "@radix-ui/react-dialog":"^1.1.14"
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('transaction_id')->constrained('transactions')->onDelete('cascade');
-            $table->text('review')->nullable();
+            // $table->text('review')->nullable();
             $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
             $table->integer('rate_kebersihan');
             $table->integer('rate_keakuratan');

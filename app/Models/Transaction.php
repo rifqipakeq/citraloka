@@ -20,8 +20,6 @@ class Transaction extends Model
         'user_id',
         'ticket_id',
         'price_per_pack',
-        'location_id',
-        'validation_token',
         'qty',
         'ppn',
         'total'

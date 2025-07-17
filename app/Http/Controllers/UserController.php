@@ -27,7 +27,7 @@ class UserController extends Controller implements HasMiddleware
     {
         $users = User::with('roles')
                 ->when($request->search, fn($query) => $query->where('name', 'like', '%' . $request->search. '%'))
-                ->latest()
+                ->orderBy('id','ASC')
                 ->paginate(6);
 
         return inertia('Users/Index', ['users' => $users, 'filters' => $request->only(['search'])]);
@@ -51,6 +51,7 @@ class UserController extends Controller implements HasMiddleware
         $request->validate([
             'name' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users',
+            'phone' => 'required',
             'password' => 'required|confirmed|min:4',
             'selectedRole' => 'required|array|min:1',
         ]);
@@ -58,6 +59,7 @@ class UserController extends Controller implements HasMiddleware
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
             'password' => bcrypt($request->password),
         ]);
 
@@ -94,12 +96,14 @@ class UserController extends Controller implements HasMiddleware
         $request->validate([
             'name' => 'required|min:3|max:255',
             'email' => 'required|email|unique:users,email,'.$user->id,
+            'phone' => 'required',
             'selectedRoles' => 'required|array|min:1',
         ]);
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
+            'phone' => $request->phone,
         ]);
 
         $user->syncRoles($request->selectedRoles);

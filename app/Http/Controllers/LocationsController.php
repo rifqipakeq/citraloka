@@ -144,7 +144,7 @@ class LocationsController extends Controller implements HasMiddleware
             $newImagePaths[] = $path;
         }
         
-        Locations::update([
+        $location->update([
             'title' => $request->title,
             'description' => $request->description,
             'officehours' => $request->officehours,

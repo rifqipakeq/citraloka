@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id();
             $table->string('code', 255);
             $table->string('external_id', 255);
-            $table->string('validation_token', 128)->nullable();
+            // $table->string('validation_token', 128)->nullable();
             $table->string('checkout_link', 255);
             $table->string('payment_method', 255)->nullable();
             $table->string('payment_status', 255)->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
-            $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
+            // $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
             $table->integer('price_per_pack');
             $table->integer('ppn');
             $table->integer('total');

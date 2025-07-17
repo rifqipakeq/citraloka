@@ -89,7 +89,7 @@ export default function Edit({ auth }) {
                                                             onChange={
                                                                 handleSelectedPermissions
                                                             }
-                                                            defaultChecked={data.selectedPermission.includes(
+                                                            defaultChecked={data.selectedPermissions.includes(
                                                                 permission
                                                             )}
                                                             key={permission}

@@ -15,7 +15,6 @@ class Reviews extends Model
         'user_id',
         'location_id',
         'transaction_id',
-        'review',
         'rate_kebersihan',
         'rate_keakuratan',
         'rate_checkin',
