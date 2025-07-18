@@ -5,7 +5,7 @@ export default function Textarea({label, className, errors, ...props}) {
             {label}
         </label>
         <textarea
-            className={`w-full px-4 py-2 border text-sm rounded-md focus:outline-none focus:ring-0 bg-white text-gray-700 focus:border-gray-200 border-gray-200 ${className}`}
+            className={`w-full px-4 py-2 border text-sm rounded-md focus:outline-hidden focus:ring-0 bg-white text-gray-700 focus:border-gray-200 border-gray-200 ${className}`}
             {...props}
         />
         { errors && (

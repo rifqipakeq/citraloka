@@ -9,26 +9,27 @@
         "@headlessui/react": "^2.0.0",
         "@inertiajs/react": "^2.0.0",
         "@tailwindcss/forms": "^0.5.3",
-        "@tailwindcss/vite": "^4.0.0",
-        "@vitejs/plugin-react": "^4.2.0",
-        "autoprefixer": "^10.4.12",
+        "@tailwindcss/postcss": "^4.1.11",
+        "@tailwindcss/vite": "^4.1.11",
+    "@vitejs/plugin-react": "^4.2.0",
         "axios": "^1.7.4",
         "concurrently": "^9.0.1",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.31",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
-        "tailwindcss": "^3.2.1",
+        "tailwindcss": "^4.1.11",
         "vite": "^6.0.11"
     },
     "dependencies": {
+        "@radix-ui/react-dialog": "^1.1.14",
+        "@shadcn/ui": "^0.0.4",
         "@tabler/icons-react": "^3.34.0",
         "@tinymce/tinymce-react": "^6.2.1",
         "clsx": "^2.1.1",
+        "react-masonry-css": "^1.0.16",
         "react-select": "^5.10.1",
         "sweetalert2": "^11.22.2",
-        "tinymce": "^7.9.1",
-        "@shadcn/ui": "^0.0.4",
-        "@radix-ui/react-dialog":"^1.1.14"
+        "tinymce": "^7.9.1"
     }
 }

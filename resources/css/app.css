@@ -1,3 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import "tailwindcss";
+
+@theme extend {
+  --color-primary-opaque: #37afe1;
+  --color-primary-hover: #2499c9;
+  --color-primary-transparent: #e5f6ff;
+  --color-xgreen: #6ec207;
+  --color-xorange: #ff8133;
+  --color-xyellow: #fdc225;
+  --color-xdarkgreen: #31a020;
+  --color-xred: #d2252e;
+  --color-xpurple: #c282ce;
+  --color-xgreen: #6ec207;
+  --color-xgray: #7d98b3;
+
+  --font-poppins: "Poppins", sans-serif;
+
+  --shadow-custom: 0px 18px 34.5px 0px rgba(0, 0, 0, 0.07);
+}
+
+@layer base {
+  progress {
+    @apply appearance-none bg-gray-200 rounded-lg h-1;
+  }
+  progress::-webkit-progress-bar {
+    @apply appearance-none bg-gray-200 rounded-lg h-1;
+  }
+  progress::-webkit-progress-value {
+    @apply appearance-none bg-gray-400 rounded-lg h-1;
+  }
+  progress::-moz-progress-bar {
+    @apply appearance-none bg-gray-200 rounded-lg h-1;
+  }
+}
+
+@layer components {
+  .homepage-hero {
+    background-image: url("../public/assets/landing_hero.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .locations-hero {
+    background-image: url("../public/assets/location_banner.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .details-hero {
+    background-image: url("../public/assets/detail_banner.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+}

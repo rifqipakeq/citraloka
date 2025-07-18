@@ -65,7 +65,7 @@ export default function Create({ auth }) {
                                 Location
                             </label>
                             <select
-                                className="w-full border-gray-300 rounded-md shadow-sm"
+                                className="w-full border-gray-300 rounded-md shadow-xs"
                                 value={data.location_id}
                                 onChange={(e) =>
                                     setData("location_id", e.target.value)
@@ -96,7 +96,7 @@ export default function Create({ auth }) {
                                 <img
                                     src={selectedLocation.image}
                                     alt={selectedLocation.title}
-                                    className="w-full h-48 object-cover rounded-md shadow"
+                                    className="w-full h-48 object-cover rounded-md shadow-sm"
                                 />
                             </div>
                         )}
