@@ -20,7 +20,19 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION, 
         'phpVersion' => PHP_VERSION,
     ]);
-});
+})->name('home');
+
+Route::get('location', function() {
+    return Inertia::render('Location');
+})->name('location');
+
+Route::get('/maps', function() {
+    return Inertia::render('Maps');
+})->name('maps');
+
+Route::get('location/{id}', function() {
+    return Inertia::render('Details');
+})->name('details');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
