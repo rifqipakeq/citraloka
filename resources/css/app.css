@@ -36,21 +36,21 @@
 
 @layer components {
   .homepage-hero {
-    background-image: url("../public/assets/landing_hero.svg");
+    background-image: url("/assets/landing_hero.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
   }
 
   .locations-hero {
-    background-image: url("../public/assets/location_banner.svg");
+    background-image: url("/assets/location_banner.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
   }
 
   .details-hero {
-    background-image: url("../public/assets/detail_banner.svg");
+    background-image: url("/assets/detail_banner.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

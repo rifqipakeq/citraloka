@@ -2,7 +2,7 @@ import { getStars } from "@/Utils/helper";
 import ReviewCard from "./ReviewCard";
 import Dropdown from "../ui/Dropdown";
 import { useState } from "react";
-import { optionSortBydDate } from "@/Utils/constants";
+import { optionsSortByDate } from "@/Utils/constants";
 
 export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
     const [orderBy, setOrderBy] = useState("");
@@ -202,7 +202,7 @@ export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
                                 </span>
                             </p>
                             <Dropdown
-                                options={optionSortBydDate}
+                                options={optionsSortByDate}
                                 value={orderBy}
                                 onChange={setOrderBy}
                                 placeholder="Paling Baru"

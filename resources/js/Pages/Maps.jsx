@@ -1,12 +1,12 @@
-import React from "react";
+import Navbar from "@/Components/ui/Navbar";
 import { Head } from "@inertiajs/react";
 import DestinationCard from "@/Components/frontend/DestinationCard";
 import Dropdown from "@/Components/ui/Dropdown";
 import {
     optionsCategories,
     optionsLocations,
-    optionPriceRanges,
-    optionSorts,
+    optionsPriceRanges,
+    optionsSorts,
 } from "@/Utils/constants";
 import { useState } from "react";
 
@@ -125,13 +125,13 @@ export default function Maps() {
                                 onChange={setLocation}
                             />
                             <Dropdown
-                                options={optionPriceRanges}
+                                options={optionsPriceRanges}
                                 value={priceRange}
                                 onChange={setPriceRange}
                             />
                         </div>
                         <Dropdown
-                            options={optionSorts}
+                            options={optionsSorts}
                             value={sortBy}
                             onChange={setSortBy}
                         />

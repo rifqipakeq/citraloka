@@ -82,7 +82,7 @@ export const optionsSorts = [
     },
 ];
 
-export const optionSortByDate = [
+export const optionsSortByDate = [
     {
         label: "Paling Baru",
         value: "newest",
