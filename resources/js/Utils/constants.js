@@ -63,7 +63,7 @@ export const optionsPriceRanges = [
     },
 ];
 
-const optionsSorts = [
+export const optionsSorts = [
     {
         label: "Harga Terendah",
         value: "lowest-price",
