@@ -1,44 +1,38 @@
 <?php
 
-use App\Http\Controllers\CategoriesController;
-use App\Http\Controllers\LocationsController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\ReviewsController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\TicketController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\UserController;
+use Inertia\Inertia;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION, 
-        'phpVersion' => PHP_VERSION,
-    ]);
-})->name('home');
+use App\Http\Controllers\Dashboard\CategoriesController;
+use App\Http\Controllers\Dashboard\LocationsController;
+use App\Http\Controllers\Dashboard\ProfileController;
+use App\Http\Controllers\Dashboard\PermissionController;
+use App\Http\Controllers\Dashboard\ReviewsController;
+use App\Http\Controllers\Dashboard\RoleController;
+use App\Http\Controllers\Dashboard\TicketController;
+use App\Http\Controllers\Dashboard\TransactionController;
+use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Dashboard\RegionController;
+use App\Http\Controllers\Dashboard\TicketCategoryController;
 
-Route::get('location', function() {
-    return Inertia::render('Location');
-})->name('location');
+use App\Http\Controllers\User\LocationsController as UserLocationsController;
+use App\Http\Controllers\User\LocationDetailController;
+use App\Http\Controllers\User\HomeController;
 
-Route::get('/maps', function() {
-    return Inertia::render('Maps');
-})->name('maps');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/location', [UserLocationsController::class, 'index'])->name('location.index');
+Route::get('/location/{id}', [LocationDetailController::class, 'index'])->name('detail.index');
+Route::get('/maps', [UserLocationsController::class, 'maps'])->name('location.maps');
 
-Route::get('location/{id}', function() {
-    return Inertia::render('Details');
-})->name('details');
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->prefix('dashboard')->group(function () {
+    
+    Route::get('/dashboard', function () {
+        return Inertia::render('Dashboard');
+    })->middleware(['auth', 'verified'])->name('dashboard');
+
     Route::resource('/permissions', PermissionController::class);
 
     Route::resource('/roles', RoleController::class)->except('show');
@@ -51,7 +45,13 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/tickets', TicketController::class);
 
+    Route::resource('/regions', RegionController::class);
+
+    Route::resource('/ticket-categories', TicketCategoryController::class);
+
     Route::resource('/reviews', ReviewsController::class);
+
+    Route::put('/reviews/{id}', [ReviewsController::class, 'update'])->name('reviews.update');
 
     Route::resource('/transactions', TransactionController::class);
     
