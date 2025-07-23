@@ -22,7 +22,10 @@ return new class extends Migration
             $table->decimal('latitude', 10, 6);
             $table->decimal('longitude', 10, 6);
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
+            $table->foreignId('region_id')
+                ->nullable()
+                ->constrained('regions')
+                ->onDelete('set null');
             $table->timestamps();
         });
     }

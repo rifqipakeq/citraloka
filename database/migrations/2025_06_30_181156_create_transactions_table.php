@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('payment_status', 255)->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('ticket_id')->constrained('tickets')->onDelete('cascade');
-            // $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
+            $table->foreignId('location_id')->constrained('locations')->onDelete('cascade');
             $table->integer('price_per_pack');
             $table->integer('ppn');
             $table->integer('total');

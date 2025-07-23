@@ -27,7 +27,7 @@ Route::get('/maps', [UserLocationsController::class, 'maps'])->name('location.ma
 
 
 
-Route::middleware('auth')->prefix('dashboard')->group(function () {
+Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
