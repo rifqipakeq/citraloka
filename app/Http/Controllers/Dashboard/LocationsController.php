@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Locations;
+use App\Models\Region;
 use App\Models\Categories;
 use App\Models\Ticket;
 
@@ -41,9 +43,20 @@ class LocationsController extends Controller implements HasMiddleware
     public function create()
     {
         $categories = Categories::orderBy('name', 'ASC')->get();
-        $tickets = Ticket::orderByRaw('CAST (SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')->get();
+        $tickets = Ticket::with('category')
+            ->orderByRaw('CAST (SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')
+            ->get()
+            ->groupBy(function ($ticket){
+                return $ticket->category->name ?? 'Uncategorized';
+            });
+        
+        $regions = Region::select('id', 'name')->get();
 
-        return inertia('Locations/Create', ['categories' => $categories, 'tickets' => $tickets]);
+        return inertia('Locations/Create', [
+            'categories' => $categories, 
+            'tickets' => $tickets, 
+            'regions' => $regions
+        ]);
     }
 
     /**
@@ -58,7 +71,9 @@ class LocationsController extends Controller implements HasMiddleware
             'description' => 'required|string',
             'officehours' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'ticket_id' => 'required|exists:tickets,id',
+            'ticket_ids' => 'required|array',
+            'ticket_ids.*' => 'exists:tickets,id',
+            'region_ids.*' => 'exists:regions,id',
             'phone' => 'required|string',
             'address' => 'required|string',
             'latitude' => 'required|numeric',
@@ -72,12 +87,12 @@ class LocationsController extends Controller implements HasMiddleware
             $imagePaths[] = $path;
         }
 
-        Locations::create([
+        $location = Locations::create([
             'title' => $request->title,
             'description' => $request->description,
             'officehours' => $request->officehours,
             'category_id' => $request->category_id,
-            'ticket_id' => $request->ticket_id,
+            'region_id' => $request->region_id,
             'phone' => $request->phone,
             'address' => $request->address,
             'latitude' => $request->latitude,
@@ -85,9 +100,22 @@ class LocationsController extends Controller implements HasMiddleware
             'image' => implode('|', $imagePaths),
         ]);
 
+        $ticketIds = $request->ticket_ids;
+
+        if(!is_array($ticketIds)) {
+            return back()->withErrors(['ticket_ids' => 'Invalid Ticket Selection.']);
+        };  
+
+        foreach($ticketIds as $ticketId){
+            $ticket = Ticket::find($ticketId);
+            if($ticket && $ticket->category_id !== null){
+                $location->ticket()->attach([
+                    $ticket->id => ['ticket_category_id' => $ticket->category_id],
+                ]);
+            }
+        }
+
         return to_route('locations.index');
-
-
     }
 
     /**
@@ -104,14 +132,28 @@ class LocationsController extends Controller implements HasMiddleware
     public function edit(Locations $location)
     {
         $categories = Categories::orderBy('name', 'ASC')->get();
-        $tickets = Ticket::orderByRaw('CAST (SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')->get();
+        $tickets = Ticket::with('category')
+            ->orderByRaw('CAST (SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')
+            ->get()
+            ->groupBy(function ($ticket){
+                return $ticket->category->name ?? 'Uncategorized';
+            });
+        
+        $regions = Region::select('id', 'name')->get();
 
-        return inertia('Locations/Edit', ['locations' => $location, 'categories' => $categories, 'tickets' => $tickets]);
+        return inertia('Locations/Edit', [
+            'locations' => $location, 
+            'categories' => $categories, 
+            'tickets' => $tickets,
+            'regions' => $regions
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
+
+    // lil diff
     public function update(Request $request, Locations $location)
     {
         $request->validate([
@@ -121,7 +163,9 @@ class LocationsController extends Controller implements HasMiddleware
             'description' => 'required|string',
             'officehours' => 'required|string',
             'category_id' => 'required|exists:categories,id',
-            'ticket_id' => 'required|exists:tickets,id',
+            'ticket_ids' => 'required|array',
+            'ticket_ids.*' => 'exists:tickets,id',
+            'region_ids.*' => 'exists:regions,id',
             'phone' => 'required|string',
             'address' => 'required|string',
             'latitude' => 'required|numeric',
@@ -149,13 +193,30 @@ class LocationsController extends Controller implements HasMiddleware
             'description' => $request->description,
             'officehours' => $request->officehours,
             'category_id' => $request->category_id,
-            'ticket_id' => $request->ticket_id,
+            'region_id' => $request->region_id,
             'phone' => $request->phone,
             'address' => $request->address,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'image' => implode('|', $newImagePaths),
         ]);
+
+        $ticketIds = $request->ticket_ids;
+
+        $location->ticket()->detach();
+
+        if(!is_array($ticketIds)) {
+            return back()->withErrors(['ticket_ids' => 'Invalid Ticket Selection.']);
+        };  
+
+        foreach($ticketIds as $ticketId){
+            $ticket = Ticket::find($ticketId);
+            if($ticket && $ticket->category_id !== null){
+                $location->ticket()->attach([
+                    $ticket->id => ['ticket_category_id' => $ticket->category_id],
+                ]);
+            }
+        }
 
         return to_route('locations.index');
 
