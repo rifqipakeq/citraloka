@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
@@ -31,7 +32,7 @@ class ReviewsController extends Controller implements HasMiddleware
         $user = auth()->user();
 
         $reviews = Reviews::with(['user', 'location', 'transaction'])
-            ->when(!$user->hasRole('admin'), function($query) use ($user) {
+            ->when(!$user->hasRole('Dashboard'), function($query) use ($user) {
                 return $query->where('user_id', $user->id);
             })
             ->when($request->search, fn($query) => $query->where('review','like','%'.$request->search.'%'))
@@ -54,9 +55,11 @@ class ReviewsController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $locations = Locations::all();
-
-        return inertia('Reviews/Create', ['locations' => $locations]);
+        $transactions = Transaction::with('location')
+            ->where('user_id', auth()->id())
+            ->get();
+            
+        return inertia('Reviews/Create', ['transactions' => $transactions]);
     }
 
     /**

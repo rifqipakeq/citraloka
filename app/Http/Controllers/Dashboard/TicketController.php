@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashbaord;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Ticket;
+use App\Models\TicketCategory;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
@@ -39,7 +41,9 @@ class TicketController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        return inertia('Tickets/Create');  
+        $ticketCategories = TicketCategory::select('id','name')->get();
+
+        return inertia('Tickets/Create', ['categories' => $ticketCategories]);  
     }
 
     /**
@@ -48,14 +52,17 @@ class TicketController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|in:Regular, VIP',
+            'ticket_category_id' => 'required|exists:ticket_categories,id',
             'price_per_pack' => 'required|integer|min:0',
             'qty' => 'required|integer|min:1',
         ]);
 
+        $ticketCategory = TicketCategory::findOrFail($request->ticket_category_id);
+
         Ticket::create([
             'ticket_code' => 'T'. mt_rand(1000,9999),
-            'name' => $request->name,
+            'name' => $ticketCategory->name,
+            'ticket_category_id' => $ticketCategory->id,
             'price_per_pack' => $request->price_per_pack,
             'qty' => $request->qty,
         ]);
@@ -76,7 +83,9 @@ class TicketController extends Controller implements HasMiddleware
      */
     public function edit(Ticket $ticket)
     {
-        return inertia('Tickets/Edit', ['ticket'=> $ticket]);
+        $ticketCategories = TicketCategory::select('id','name')->get();
+
+        return inertia('Tickets/Edit', ['categories' => $ticketCategories, 'ticket' => $ticket]);  
     }
 
     /**
@@ -85,13 +94,16 @@ class TicketController extends Controller implements HasMiddleware
     public function update(Request $request,Ticket $ticket)
     {
         $request->validate([
-            'name' => 'required|in:Regular,VIP',
+            'ticket_category_id' => 'required|exists:ticket_categories,id',
             'price_per_pack' => 'required|integer|min:0',
             'qty' => 'required|integer|min:1',
         ]);
 
+        $ticketCategory = TicketCategory::findOrFail($request->ticket_category_id);
+
         $ticket->update([
-            'name' => $request->name,
+            'name' => $ticketCategory->name,
+            'ticket_category_id' => $ticketCategory->id,
             'price_per_pack' => $request->price_per_pack,
             'qty' => $request->qty,
         ]);
