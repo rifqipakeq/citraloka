@@ -12,7 +12,7 @@ use App\Models\Region;
 use App\Models\Categories;
 use App\Models\Ticket;
 
-class LocationsController extends Controller implements HasMiddleware
+class LocationsController extends Controller implements HasMiddleware   
 {
     public static function middleware()
     {
