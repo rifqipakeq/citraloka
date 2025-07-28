@@ -51,3 +51,25 @@ export const formatDate = (rawDate) => {
         year: "numeric",
     }).format(dateObj);
 };
+
+export const toIDR = (value) => {
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+    }).format(value);
+}
+
+export const calculateRating = (review) => {
+    const ratingKeys = [
+        "rate_checkin",
+        "rate_keakuratan",
+        "rate_kebersihan",
+        "rate_komunikasi",
+        "rate_lokasi",
+        "rate_nilaiekonomis",
+    ];
+
+    const ratings = ratingKeys.map((key) => review[key]); 
+    return ratings.reduce((sum, val) => sum + val, 0) / ratings.length;
+}

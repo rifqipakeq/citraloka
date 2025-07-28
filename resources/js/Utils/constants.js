@@ -1,49 +1,3 @@
-export const optionsCategories = [
-    {
-        label: "All Categories",
-        value: "all",
-    },
-    {
-        label: "Nature",
-        value: "nature",
-    },
-    {
-        label: "Culinary",
-        value: "culinary",
-    },
-    {
-        label: "Theme Park",
-        value: "theme-park",
-    },
-    {
-        label: "History & Education",
-        value: "history-education",
-    },
-    {
-        label: "Art & Culture",
-        value: "art-culture",
-    },
-];
-
-export const optionsLocations = [
-    {
-        label: "All Categories",
-        value: "all",
-    },
-    {
-        label: "Jabodetabek",
-        value: "jabodetabek",
-    },
-    {
-        label: "Jawa",
-        value: "jawa",
-    },
-    {
-        label: "Luar Jawa",
-        value: "outside-java",
-    },
-];
-
 export const optionsPriceRanges = [
     {
         label: "All Price",
@@ -51,7 +5,7 @@ export const optionsPriceRanges = [
     },
     {
         label: "Di bawah Rp100.000",
-        value: "below-100000",
+        value: "0-100000",
     },
     {
         label: "Rp100.000 - Rp1.000.000",
@@ -59,27 +13,19 @@ export const optionsPriceRanges = [
     },
     {
         label: "Di atas Rp 1.000.000",
-        value: "2500000-5000000",
+        value: "1000000-999999999",
     },
 ];
 
 export const optionsSorts = [
     {
         label: "Harga Terendah",
-        value: "lowest-price",
+        value: "asc",
     },
     {
         label: "Harga Tertinggi",
-        value: "hightest-price",
-    },
-    {
-        label: "Lokasi Terdekat",
-        value: "nearest",
-    },
-    {
-        label: "Lokasi Terjauh",
-        value: "farthest",
-    },
+        value: "desc",
+    }
 ];
 
 export const optionsSortByDate = [
@@ -125,3 +71,12 @@ export const categories = [
         color: "bg-xdarkgreen",
     },
 ];
+
+export const categoryColors = {
+    2: "bg-xgreen",
+    3: "bg-xorange",
+    4: "bg-xgray",
+    5: "bg-xpurple",
+    6: "bg-xred",
+    7: "bg-xdarkgreen",
+};
