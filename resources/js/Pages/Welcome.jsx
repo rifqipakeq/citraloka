@@ -3,15 +3,23 @@ import Navbar from "@/Components/ui/Navbar";
 import { Head } from "@inertiajs/react";
 import { categories } from "@/Utils/constants";
 import { useState } from "react";
+import { router } from "@inertiajs/react";
+import UserLayout from "@/Layouts/UserLayout";
 
-export default function Welcome({ auth }) {
+export default function Welcome({ categories, auth }) {
     const [search, setSearch] = useState("");
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        router.get(route("location.index"), {
+            search: search,
+        });
+    };
 
     return (
         <>
             <Head title="Welcome" />
-            <div>
-                <Navbar />
+            <UserLayout auth={auth}>
                 <section className="relative flex flex-col items-center w-full h-[60vh] homepage-hero font-poppins">
                     <h1 className="text-5xl font-semibold text-[#38505C] text-center mt-48 sm:mt-64">
                         Find The Best Vacation Spots
@@ -26,7 +34,10 @@ export default function Welcome({ auth }) {
                                 Discover the Best Destination in Indonesia
                             </p>
                         </div>
-                        <search className="flex flex-col sm:flex-row gap-4 w-full">
+                        <form
+                            className="flex flex-col sm:flex-row gap-4 w-full"
+                            onSubmit={handleSearch}
+                        >
                             <input
                                 type="text"
                                 placeholder="Search for a destination"
@@ -40,7 +51,7 @@ export default function Welcome({ auth }) {
                             >
                                 Search
                             </button>
-                        </search>
+                        </form>
                     </div>
                 </section>
 
@@ -48,23 +59,23 @@ export default function Welcome({ auth }) {
                     {categories.map((category, index) => {
                         <div
                             key={index}
-                            className="relative flex flex-col items-center"
+                            onClick={() =>
+                                router.get(route("location.index"), {
+                                    category: category.id,
+                                })
+                            }
+                            className="relative flex flex-col items-center hover:cursor-pointer"
                         >
                             <img
-                                src={category.thumbnail}
+                                src={category.image_url}
                                 alt={category.name}
                                 className="w-full"
                                 draggable="false"
                             />
-                            <p
-                                className={`text-xl md:text-2xl px-7 py-2.5 rounded-full ${category.color} absolute top-4 left-4 text-white font-semibold`}
-                            >
-                                {category.name}
-                            </p>
                         </div>;
                     })}
                 </main>
-            </div>
+            </UserLayout>
         </>
     );
 }
