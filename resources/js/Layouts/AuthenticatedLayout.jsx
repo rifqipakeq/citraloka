@@ -64,6 +64,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                         Categories
                                     </NavLink>
                                 )}
+                                {hasAnyPermission(["regions index"]) && (
+                                    <NavLink
+                                        href={route("regions.index")}
+                                        active={route().current("regions*")}
+                                    >
+                                        Regions
+                                    </NavLink>
+                                )}
                                 {hasAnyPermission(["locations index"]) && (
                                     <NavLink
                                         href={route("locations.index")}
@@ -78,6 +86,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                         active={route().current("tickets*")}
                                     >
                                         Tickets
+                                    </NavLink>
+                                )}
+                                {hasAnyPermission(["tickets index"]) && (
+                                    <NavLink
+                                        href={route("ticket-categories.index")}
+                                        active={route().current("ticket-categories*")}
+                                    >
+                                        Ticket Categories
                                     </NavLink>
                                 )}
                                 {hasAnyPermission(["transactions index"]) && (
@@ -235,6 +251,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                 Categories
                             </ResponsiveNavLink>
                         )}
+                        {hasAnyPermission(["regions index"]) && (
+                            <ResponsiveNavLink
+                                href={route("regions.index")}
+                                active={route().current("regions*")}
+                            >
+                                Regions
+                            </ResponsiveNavLink>
+                        )}
                         {hasAnyPermission(["locations index"]) && (
                             <ResponsiveNavLink
                                 href={route("locations.index")}
@@ -249,6 +273,14 @@ export default function AuthenticatedLayout({ header, children }) {
                                 active={route().current("tickets*")}
                             >
                                 Tickets
+                            </ResponsiveNavLink>
+                        )}
+                        {hasAnyPermission(["tickets index"]) && (
+                            <ResponsiveNavLink
+                                href={route("ticket-categories.index")}
+                                active={route().current("ticket-categories*")}
+                            >
+                                Ticket Categories
                             </ResponsiveNavLink>
                         )}
                         {hasAnyPermission(["transactions index"]) && (
