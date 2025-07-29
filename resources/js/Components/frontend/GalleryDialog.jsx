@@ -1,5 +1,3 @@
-import Masonry from "react-masonry-css";
-
 export default function GalleryDialog({
     isOpen,
     setIsOpen,
@@ -46,19 +44,37 @@ export default function GalleryDialog({
                     </div>
 
                     <div className="max-h-[60vh] overflow-y-auto mt-8">
-                        <Masonry
-                            breakpointCols={{ default: 2 }}
-                            className="flex ml-4 w-auto"
-                            columnClassName="pl-4 bg-clip-padding"
-                        >
-                            {pictures.map((pin, index) => (
-                                <img
-                                    src={pin}
-                                    key={index}
-                                    className="w-full mb-4"
-                                />
-                            ))}
-                        </Masonry>
+                        <div className="grid grid-cols-3 gap-2 auto-rows-[150px]">
+                            {pictures.map((src, idx) => {
+                                const groupIndex = Math.floor(idx / 3);
+                                const posInGroup = idx % 3;
+
+                                let gridStyle = "";
+
+                                if (groupIndex % 2 === 0) {
+                                    if (posInGroup === 0) {
+                                        gridStyle = "col-span-2 row-span-2";
+                                    } else {
+                                        gridStyle = "col-span-1 row-span-1";
+                                    }
+                                } else {
+                                    if (posInGroup === 1) {
+                                        gridStyle = "col-span-2 row-span-2";
+                                    } else {
+                                        gridStyle = "col-span-1 row-span-1";
+                                    }
+                                }
+
+                                return (
+                                    <img
+                                        key={idx}
+                                        src={src}
+                                        alt={`${destination} photo ${idx + 1}`}
+                                        className={`rounded-lg object-cover w-full h-full ${gridStyle}`}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

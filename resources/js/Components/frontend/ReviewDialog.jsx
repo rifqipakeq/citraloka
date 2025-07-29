@@ -1,11 +1,30 @@
-import { getStars } from "@/Utils/helper";
+import { calculateRating, getStars } from "@/Utils/helper";
 import ReviewCard from "./ReviewCard";
 import Dropdown from "../ui/Dropdown";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { optionsSortByDate } from "@/Utils/constants";
 
-export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
-    const [orderBy, setOrderBy] = useState("");
+export default function ReviewDialog({ isOpen, setIsOpen, reviews, ratings }) {
+    const [search, setSearch] = useState("");
+    const [filteredReviews, setFilteredReviews] = useState(reviews);
+
+    useEffect(() => {
+        if (orderBy === "newest") {
+            setFilteredReviews((prev) =>
+                [...prev].sort((a, b) => {
+                    return new Date(b.created_at) - new Date(a.created_at);
+                })
+            );
+        } else if (orderBy === "oldest") {
+            setFilteredReviews((prev) =>
+                [...prev].sort((a, b) => {
+                    return new Date(a.created_at) - new Date(b.created_at);
+                })
+            );
+        } else {
+            setFilteredReviews(reviews);
+        }
+    }, [orderBy, reviews]);
 
     const handleBackdropClick = (e) => {
         if (!e) return;
@@ -13,6 +32,14 @@ export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
         if (e.target.tagName === "DIALOG") {
             setIsOpen(false);
         }
+    };
+
+    const handleSearch = () => {
+        setSearch(e.target.value);
+        const filtered = reviews.filter((review) => {
+            review.review.toLowerCase().includes(e.target.valur.toLowerCase());
+        });
+        setFilteredReviews(filtered);
     };
 
     return (
@@ -45,11 +72,15 @@ export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
                                     className="h-32 w-32"
                                 />
                                 <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-4xl font-bold text-white">
-                                    4
+                                    {calculateRating(ratings)}
                                 </p>
                             </div>
                             <div className="mt-2 flex items-center justify-evenly gap-1">
-                                {getStars(4, "text-xl text-xyellow", false)}
+                                {getStars(
+                                    calculateRating(ratings),
+                                    "text-xl text-xyellow",
+                                    false
+                                )}
                             </div>
                             <div className="mt-2 text-center">
                                 <p className="text-lg font-semibold text-gray-600">
@@ -65,44 +96,54 @@ export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
                             <p className="mb-2 text-sm font-medium text-gray-600">
                                 Nilai Keseluruhan
                             </p>
-                            <div className="mt-2 flex items-center justify-between gap-4">
-                                <span className="text-xs text-gray-500">5</span>
+                            <div className="mt-2 flex items-center justify-between gap-2">
+                                <span className="text-xs text-gray-500">
+                                    {ratings.rate_kebersihan}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="90"
-                                    max="100"
+                                    value={ratings.rate_kebersihan}
+                                    max="5"
+                                ></progress>
+                            </div>
+                            <div className="mt-2 flex items-center justify-between gap-2">
+                                <span className="text-xs text-gray-500">
+                                    {ratings.rate_keakuratan}
+                                </span>
+                                <progress
+                                    className="rating-progress"
+                                    value={ratings.rate_keakuratan}
+                                    max="5"
                                 ></progress>
                             </div>
                             <div className="mt-2 flex items-center justify-between gap-4">
-                                <span className="text-xs text-gray-500">4</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratings.rate_checkin}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="75"
-                                    max="100"
+                                    value={ratings.rate_checkin}
+                                    max="5"
                                 ></progress>
                             </div>
                             <div className="mt-2 flex items-center justify-between gap-4">
-                                <span className="text-xs text-gray-500">3</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratings.rate_komunikasi}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="30"
-                                    max="100"
+                                    value={ratings.rate_komunikasi}
+                                    max="5"
                                 ></progress>
                             </div>
                             <div className="mt-2 flex items-center justify-between gap-4">
-                                <span className="text-xs text-gray-500">2</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratings.rate_lokasi}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="10"
-                                    max="100"
-                                ></progress>
-                            </div>
-                            <div className="mt-2 flex items-center justify-between gap-4">
-                                <span className="text-xs text-gray-500">1</span>
-                                <progress
-                                    className="rating-progress"
-                                    value="5"
-                                    max="100"
+                                    value={ratings.rate_lokasi}
+                                    max="5"
                                 ></progress>
                             </div>
                         </div>
@@ -193,8 +234,8 @@ export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
                         </div>
                     </div>
 
-                    <div className="md:col-span-2">
-                        <div className="mb-4 flex w-full items-center justify-between">
+                    <div className="max-h-[60vh] overflow-y-auto mt-8 md:col-span-2 ml-4">
+                        <div className="mb-6 flex w-full items-center justify-between px-1">
                             <p className="text-xl text-gray-500">
                                 Semua Ulasan{" "}
                                 <span className="font-semibold text-gray-600">
@@ -208,20 +249,22 @@ export default function ReviewDialog({ isOpen, setIsOpen, reviews }) {
                                 placeholder="Paling Baru"
                             />
                         </div>
-                        <div className="relative mb-6 w-full">
-                            <i className="bi bi-search absolute top-1/2 left-4 -translate-y-1/2 text-gray-400"></i>
-                            <input
-                                type="text"
-                                className="w-full rounded-full border border-gray-300 py-2 pl-10 pr-4 placeholder:text-sm"
-                                placeholder="Cari Ulasan"
-                            />
-                        </div>
 
-                        <div className="space-y-6">
-                            {reviews.map((review) => (
-                                <ReviewCard key={review.id} user={review} />
-                            ))}
-                        </div>
+                        <search className="mb-6">
+                            <div className="relative w-full">
+                                <input
+                                    type="text"
+                                    className="w-full rounded-full border border-gray-300 py-2 pl-10 pr-4 placeholder:text-sm"
+                                    placeholder="Cari Ulasan"
+                                    value={search}
+                                    onChange={handleSearch}
+                                />
+                                <i className="bi bi-search absolute top-1/2 right-4 -translate-y-1/2"></i>
+                            </div>
+                        </search>
+                        {filteredReviews.map((review) => (
+                            <ReviewCard key={review.id} review={review} />
+                        ))}
                     </div>
                 </div>
             </div>

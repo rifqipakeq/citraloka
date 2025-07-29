@@ -3,10 +3,18 @@ import { categoryColors } from "@/Utils/constants";
 import { toIDR } from "@/Utils/helper";
 
 export default function DestinationCard({ item }) {
+    const handleClick = () => {
+        if(typeof action === "function"){
+            action();
+        } else {
+            router.get(route("detail.index", item.id));
+        }
+    }
+    
     return (
         <div
             className="p-2.5 rounded-3xl border-gray-300 bg-white hover:cursor-pointer hover:shadow-lg transition-all"
-            onClick={() => router.get(route("detail.index", item.id))}
+            onClick={handleClick}
         >
             <div className="relative">
                 <img
@@ -16,7 +24,7 @@ export default function DestinationCard({ item }) {
                 />
                 <p
                     className={`text-sm text-white font-semibold px-5 py-2.5 rounded-full w-fit absolute bottom-4 left-4 ${
-                        categoryColors[item.category]
+                        categoryColors[item.category.id]
                     }`}
                 >
                     {item.category}
@@ -27,7 +35,7 @@ export default function DestinationCard({ item }) {
                 </p>
             </div>
             <div className="px-2.5 pb-8">
-                <div className="flex justify-between items-center mt-5 text-lg font-semibold">
+                <div className="flex justify-between items-end mt-5 text-lg font-semibold">
                     <p>{item.title}</p>
                     <p className="text-primary-opaque text-right">
                         {toIDR(item.start_from)}
