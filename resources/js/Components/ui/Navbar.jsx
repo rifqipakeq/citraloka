@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
 
-export default function Navbar() {
+export default function Navbar({ auth }) {
     return (
         <header className="fixed top-0 left-0 w-full z-50 px-4">
             <nav className="container mx-auto flex items-center bg-white justify-between px-8 py-3.5 font-poppins rounded-full mt-8">
@@ -26,9 +26,9 @@ export default function Navbar() {
                     </li>
                     <li>
                         <Link
-                            href={route("location")}
+                            href={route("location.index")}
                             className={
-                                route().current("location")
+                                route().current("location.index")
                                     ? "text-primary-opaque border-b-3 py-1 border-primary-opaque"
                                     : ""
                             }
@@ -38,9 +38,9 @@ export default function Navbar() {
                     </li>
                     <li>
                         <Link
-                            href={route("maps")}
+                            href={route("location.maps")}
                             className={
-                                route().current("maps")
+                                route().current("location.maps")
                                     ? "text-primary-opaque border-b-3 py-1 border-primary-opaque"
                                     : ""
                             }
@@ -49,12 +49,28 @@ export default function Navbar() {
                         </Link>
                     </li>
                 </ul>
-                <Link
-                    href={route("login")}
-                    className="px-16 py-4 bg-primary-opaque rounded-full text-white font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer"
-                >
-                    Login
-                </Link>
+                {auth.user ? (
+                    <Link
+                        href={route("dashboard")}
+                        className="bg-primary-opaque rounded-full text-white font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer"
+                    >
+                        <img
+                            src={
+                                auth.user.profile_picture ||
+                                "/assets/profile_placeholder.png"
+                            }
+                            alt="User"
+                            className="h-12 w-12 rounded-full overflow-hidden"
+                        />
+                    </Link>
+                ) : (
+                    <Link
+                        href={route("login")}
+                        className="px-16 py-4 bg-primary-opaque rounded-full text-white font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer"
+                    >
+                        Login
+                    </Link>
+                )}
             </nav>
         </header>
     );
