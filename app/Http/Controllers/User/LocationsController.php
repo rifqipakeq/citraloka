@@ -37,7 +37,7 @@ class LocationsController extends Controller
             );
 
         if($search){
-            $query->where('location.title','like','%'.$search.'%');
+            $query->where('locations.title','like','%'.$search.'%');
         }
 
         if($categoryId){
@@ -75,7 +75,7 @@ class LocationsController extends Controller
 
         $query = Locations::query()
             ->with(['category','ticket','ticket.ticketCategory'])
-            ->leftJoin(['reviews','location.id','=','reviews.location_id'])
+            ->leftJoin(['reviews','locations.id','=','reviews.locations_id'])
             ->select(
                 'locations.*',
                 DB::raw(
@@ -89,11 +89,11 @@ class LocationsController extends Controller
             );
 
         if($search){
-            $query->where('location.title','like','%'.$search.'%');
+            $query->where('locations.title','like','%'.$search.'%');
         }
 
-        if($region && $region !== 'all'){                        $
-            $query->where('location.region_id', $region);
+        if($region && $region !== 'all'){                        
+            $query->where('locations.region_id', $region);
         }
 
         if($priceRange && $priceRange !== 'all'){
@@ -119,7 +119,7 @@ class LocationsController extends Controller
                 'locations.id',
                 '=',
                 'min_ticket_prices.location_id'
-            )->orderBy('min_ticket_price.min_price', $order);
+            )->orderBy('min_ticket_prices.min_price', $order);
         }
 
         $locations = $query->paginate(9)->withQueryString();
