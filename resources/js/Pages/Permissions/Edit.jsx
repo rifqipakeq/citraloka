@@ -16,7 +16,7 @@ export default function Edit({ auth }) {
         _method: "put",
     });
 
-    const handleUpdateData = async () => {
+    const handleUpdateData = async (e) => {
         e.preventDefault();
 
         post(route("permissions.update", permission.id), {
@@ -50,7 +50,7 @@ export default function Edit({ auth }) {
                                 label={"Permission Name"}
                                 type={"text"}
                                 value={data.name}
-                                onChange={(e) => setData("name", e.targetValue)}
+                                onChange={(e) => setData("name", e.target.value)}
                                 errors={errors.name}
                                 placeholder="Input Permission Name.."
                             />

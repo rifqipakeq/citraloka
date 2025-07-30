@@ -17,7 +17,7 @@ export default function Edit({ auth }) {
         _method: "put",
     });
 
-    const handleUpdateData = async () => {
+    const handleUpdateData = async (e) => {
         e.preventDefault();
 
         post(route("categories.update", category.id), {
@@ -51,7 +51,7 @@ export default function Edit({ auth }) {
                                 label={"Category Name"}
                                 type={"text"}
                                 value={data.name}
-                                onChange={(e) => setData("name", e.targetValue)}
+                                onChange={(e) => setData("name", e.target.value)}
                                 errors={errors.name}
                                 placeholder="Input Category Name.."
                             />

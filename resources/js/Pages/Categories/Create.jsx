@@ -14,7 +14,7 @@ export default function Create({ auth }) {
         image: null,
     });
 
-    const handleStoreData = async () => {
+    const handleStoreData = async (e) => {
         e.preventDefault();
 
         post(route("categories.store"), {
@@ -48,7 +48,7 @@ export default function Create({ auth }) {
                                 label={"Category Name"}
                                 type={"text"}
                                 value={data.name}
-                                onChange={(e) => setData("name", e.targetValue)}
+                                onChange={(e) => setData("name", e.target.value)}
                                 errors={errors.name}
                                 placeholder="Input Category Name.."
                             />

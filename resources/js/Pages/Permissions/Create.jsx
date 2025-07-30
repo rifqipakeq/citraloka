@@ -13,7 +13,7 @@ export default function Create({auth}) {
         name: "",
     });
 
-    const handleStoreData = async () => {
+    const handleStoreData = async (e) => {
         e.preventDefault();
 
         post(route("permissions.store"), {
@@ -47,7 +47,7 @@ export default function Create({auth}) {
                                 label={"Permission Name"}
                                 type={"text"}
                                 value={data.name}
-                                onChange={(e) => setData("name", e.targetValue)}
+                                onChange={(e) => setData("name", e.target.value)}
                                 errors={errors.name}
                                 placeholder="Input Permission Name.."
                             />
