@@ -1,44 +1,52 @@
-import React, { use } from "react";
 import ReviewCard from "@/Components/frontend/ReviewCard";
 import Navbar from "@/Components/ui/Navbar";
 import { Head } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GalleryDialog from "@/Components/frontend/GalleryDialog";
 import ReviewDialog from "@/Components/frontend/ReviewDialog";
-import Dropdown from "@/Components/ui/Dropdown";
+import { categoryColors } from "@/Utils/constants";
+import { toIDR } from "@/Utils/helper";
+import { router } from "@inertiajs/react";
+import UserLayout from "@/Layouts/UserLayout";
 
-export default function Location() {
+export default function Location({
+    auth,
+    ratingAverages,
+    ticketCategories,
+    location,
+}) {
     const [isGalleryOpen, setIsGalleryOpen] = useState(false);
     const [isReviewOpen, setIsReviewOpen] = useState(false);
 
     const [ticketAmount, setTicketAmount] = useState(1);
-    const [ticketType, setTicketType] = useState("regular");
+    const [ticketType, setTicketType] = useState(
+        ticketCategories?.[0]?.id || null
+    );
 
-    const users = [
-        {
-            id: 1,
-            name: "John Doe",
-            profile_picture: "/assets/flores.jpg",
-            rating: 4.5,
-            review: "This place is amazing",
-            created_at: "01-10-2023",
-        },
-    ];
+    const [ticketPrice, setTicketPrice] = useState(
+        location.ticket
+            .filter((ticket) => ticket.ticket_category_id === ticketType)
+            .map((ticket) => ticket.price_per_pack)[0]
+    );
 
-    const pictures = [
-        "/assets/flores.jpg",
-        "/assets/flores.jpg",
-        "/assets/flores.jpg",
-        "/assets/flores.jpg",
-        "/assets/flores.jpg",
-        "/assets/flores.jpg",
-        "/assets/flores.jpg",
-    ];
+    // potential error
+    // useEffect(() => {
+    //     setTicketPrice(
+    //         location.ticket
+    //             .filter((ticket) => ticket.ticket_category_id === ticketType)
+    //             .map((ticket) => ticket.price_per_pack)[0]
+    //     );
+    // }, [ticketType, location.ticket]);
+
+    useEffect(() => {
+        const price = location.ticket.find(
+            (ticket) => ticket.ticket_category_id === ticketType
+        )?.price_per_pack;
+        setTicketPrice(price || 0);
+    }, [ticketType, location.ticket]);
 
     const calculateTicketPrice = () => {
-        const ticketPrice = 100000;
-        const tax = 10000;
-
+        const tax = ticketPrice * 0.1 * ticketAmount;
         const totalPrice = ticketAmount * ticketPrice + tax;
         return totalPrice.toLocaleString("id-ID", {
             style: "currency",
@@ -46,11 +54,17 @@ export default function Location() {
         });
     };
 
+    const orderTicket = () => {
+        if (!auth.user) {
+            router.get(route("login"));
+            return;
+        }
+    };
+
     return (
         <>
             <Head title="Details" />
-            <div>
-                <Navbar />
+            <UserLayout auth={auth}>
                 <section className="relative flex flex-col items-center font-poppins pt-40 px-4">
                     <div className="w-full h-[37.5rem] details-hero absolute top-0 left-0 -z-10"></div>
                     <div className="container mx-auto">
@@ -60,33 +74,37 @@ export default function Location() {
                                     Location &gt;{" "}
                                 </span>
                                 <span className="text-gray-500">
-                                    Labuan Bajo
+                                    {location.title}
                                 </span>
                             </h1>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-10 relative">
                             <div className="overflow-hidden object-cover aspect-[16/9.2]">
-                                <img
-                                    src="../public/assets/flores.jpeg"
-                                    alt="Flores"
-                                    className="w-full"
-                                />
+                                {location.image_urls?.length > 0 && (
+                                    <img
+                                        src={location.image_urls[0]}
+                                        alt={location.title}
+                                        className="w-full"
+                                    />
+                                )}
                             </div>
                             <div className="grid grid-cols-2 gap-4">
-                                {pictures.slice(1, 5).map((picture, index) => {
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="overflow-hidden object-cover aspect-video"
-                                        >
-                                            <img
-                                                src={picture}
-                                                alt={`Picture ${index + 1}`}
-                                                className="w-full"
-                                            />
-                                        </div>
-                                    );
-                                })}
+                                {location.image_urls
+                                    .slice(1, 5)
+                                    .map((picture, index) => {
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="overflow-hidden object-cover aspect-video"
+                                            >
+                                                <img
+                                                    src={picture}
+                                                    alt={`Picture ${index + 1}`}
+                                                    className="w-full"
+                                                />
+                                            </div>
+                                        );
+                                    })}
                             </div>
 
                             <button
@@ -100,8 +118,8 @@ export default function Location() {
                             <GalleryDialog
                                 isOpen={isGalleryOpen}
                                 setIsOpen={setIsGalleryOpen}
-                                destination="Labuan Bajo"
-                                picture={pictures}
+                                destination={location.title}
+                                pictures={location.image_urls}
                             />
                         </div>
                     </div>
@@ -110,8 +128,12 @@ export default function Location() {
                 <main className="container mx-auto font-poppins mt-6 px-4">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-12 w-full">
                         <div className="col-span-1 md:col-span-8">
-                            <p className="py-1.5 px-6 bg-xgreen text-white rounded-full w-fit">
-                                Mountain
+                            <p
+                                className={`py-1.5 px-6 ${
+                                    categoryColors[location.category.id]
+                                } text-white rounded-full w-fit`}
+                            >
+                                {location.category.name}
                             </p>
                             <div className="mt-8">
                                 <h2 className="text-3xl text-primary-opaque font-semibold">
@@ -124,7 +146,7 @@ export default function Location() {
                                     </span>
                                     <span className="text-gray-500">
                                         {" "}
-                                        ● 188 Reviews
+                                        ● {location.reviews.length || 0} Reviews
                                     </span>
                                 </div>
                             </div>
@@ -143,7 +165,7 @@ export default function Location() {
                                             Address
                                         </p>
                                         <p className="text-gray-600 font-medium">
-                                            Nusa Tenggara Selatan, Indonesia
+                                            {location.address}
                                         </p>
                                     </div>
                                 </div>
@@ -154,7 +176,7 @@ export default function Location() {
                                             Phone
                                         </p>
                                         <p className="text-gray-600 font-medium">
-                                            +23504-405-696
+                                            {location.phone}
                                         </p>
                                     </div>
                                 </div>
@@ -165,7 +187,7 @@ export default function Location() {
                                             Office Hours
                                         </p>
                                         <p className="text-gray-600 font-medium">
-                                            8.00 AM - 9.30 AM
+                                            {location.officehours}
                                         </p>
                                     </div>
                                 </div>
@@ -175,19 +197,12 @@ export default function Location() {
                                 <h3 className="mb-5 text-2xl font-semibold text-gray-500">
                                     Description
                                 </h3>
-                                <p className="text-gray-600">
-                                    Gunung Semeru, dengan puncaknya yang dikenal
-                                    sebagai Mahameru, adalah gunung tertinggi di
-                                    Pulau Jawa dengan ketinggian 3.676 meter di
-                                    atas permukaan laut. Gunung ini menjadi
-                                    favorit para pendaki yang ingin menantang
-                                    diri mereka untuk mencapai puncaknya yang
-                                    megah. Salah satu daya tarik utama Semeru
-                                    adalah Ranu Kumbolo, sebuah danau berair
-                                    jernih yang menjadi tempat peristirahatan
-                                    bagi para pendaki sebelum melanjutkan
-                                    perjalanan menuju puncak.
-                                </p>
+                                <p
+                                    className="text-gray-600"
+                                    dangerouslySetInnerHTML={{
+                                        __html: location.description,
+                                    }}
+                                ></p>
                             </div>
                             <hr className="border my-9 border-gray-200" />
                             <div>
@@ -198,11 +213,16 @@ export default function Location() {
                                     <i className="bi bi-geo-alt text-gray-600"></i>
                                     <div>
                                         <p className="text-gray-600 font-medium">
-                                            Nusa Tenggara Selatan, Indonesia
+                                            {location.address}
                                         </p>
-                                        <p className="text-sm text-gray-400 underline">
+                                        <a
+                                            href={`https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`}
+                                            target="_blank"
+                                            rel="noopener noreffer"
+                                            className="text-sm text-gray-400 underline"
+                                        >
                                             See in Maps
-                                        </p>
+                                        </a>
                                     </div>
                                 </div>
                                 <div className="w-full mt-5">
@@ -224,23 +244,23 @@ export default function Location() {
                             <div className="p-6 w-full rounded-2xl bg-white shadow-lg border border-gray-200 mt-8">
                                 <div className="bg-primary-transparent text-primary-opaque w-fit font-semibold py-3 px-6 rounded-xl">
                                     <i className="bi bi-ticket-perforated"></i>
-                                    <span>123 Available Tickets</span>
+                                    <span>
+                                        {location.ticket.qty} Available Tickets
+                                    </span>
                                 </div>
                                 <div className="w-full flex justify-between items-start mt-8">
                                     <span className="font-semibold text-gray-400">
                                         Ticket Type
                                     </span>
                                     <Dropdown
-                                        options={[
-                                            {
-                                                label: "Regular",
-                                                value: "regular",
-                                            },
-                                            {
-                                                label: "VIP",
-                                                value: "vip",
-                                            },
-                                        ]}
+                                        options={ticketCategories.map(
+                                            (category) => {
+                                                return {
+                                                    label: category.name,
+                                                    value: category.id,
+                                                };
+                                            }
+                                        )}
                                         value={ticketType}
                                         onChange={setTicketType}
                                     />
@@ -251,7 +271,7 @@ export default function Location() {
                                             Ticket Price x1
                                         </p>
                                         <p className="text-xl font-semibold text-gray-600">
-                                            Rp100.000,00
+                                            {toIDR(ticketPrice)}
                                         </p>
                                     </div>
                                     <div className="flex items-center gap-6 justify-center">
@@ -276,7 +296,10 @@ export default function Location() {
                                                     ticketAmount + 1
                                                 )
                                             }
-                                            disabled={ticketAmount >= 999}
+                                            disabled={
+                                                ticketAmount >= 999 ||
+                                                !auth.user
+                                            }
                                         >
                                             <i className="bi bi-plus"></i>
                                         </button>
@@ -289,7 +312,9 @@ export default function Location() {
                                             PPN
                                         </p>
                                         <p className="text-lg font-semibold text-gray-500">
-                                            Rp10.000,00
+                                            {toIDR(
+                                                ticketPrice * 0.1 * ticketAmount
+                                            )}
                                         </p>
                                     </div>
                                     <div className="flex items-center justify-between mt-4">
@@ -297,11 +322,14 @@ export default function Location() {
                                             Total Price
                                         </p>
                                         <p className="text-lg font-semibold text-gray-500">
-                                            {calculateTicketPrice}
+                                            {calculateTicketPrice()}
                                         </p>
                                     </div>
                                 </div>
-                                <button className="text-white bg-primary-opaque py-4 w-full rounded-xl font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer">
+                                <button
+                                    onClick={orderTicket}
+                                    className="text-white bg-primary-opaque py-4 w-full rounded-xl font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer"
+                                >
                                     Pesan Sekarang
                                 </button>
                             </div>
@@ -315,7 +343,7 @@ export default function Location() {
                         <span>
                             <i className="bi bi-star-fill"></i> <span>4.5</span>
                         </span>
-                        <span> ● 188 Reviews</span>
+                        <span> ● {location.reviews.length || 0} Reviews</span>
                     </h3>
                     <div className="grid grid-cols-2 md:flex flex-1 gap-4 mt-9">
                         <div className="border-0 md:border-r md:border-gray-200 px-4 w-full">
@@ -323,42 +351,62 @@ export default function Location() {
                                 Nilai Keseluruhan
                             </p>
                             <div className="flex items-center justify-between gap-4 mt-2">
-                                <span className="text-xs text-gray-500">4</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratingAverages.rate_kebersihan}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="4"
+                                    value={ratingAverages.rate_kebersihan}
                                     max="5"
                                 ></progress>
                             </div>
                             <div className="flex items-center justify-between gap-4 mt-2">
-                                <span className="text-xs text-gray-500">2</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratingAverages.rate_keakuratan}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="2"
+                                    value={ratingAverages.rate_keakuratan}
                                     max="5"
                                 ></progress>
                             </div>
                             <div className="flex items-center justify-between gap-4 mt-2">
-                                <span className="text-xs text-gray-500">5</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratingAverages.rate_checkin}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="5"
+                                    value={ratingAverages.rate_checkin}
                                     max="5"
                                 ></progress>
                             </div>
                             <div className="flex items-center justify-between gap-4 mt-2">
-                                <span className="text-xs text-gray-500">1</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratingAverages.rate_komunikasi}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="1"
+                                    value={ratingAverages.rate_komunikasi}
                                     max="5"
                                 ></progress>
                             </div>
                             <div className="flex items-center justify-between gap-4 mt-2">
-                                <span className="text-xs text-gray-500">3</span>
+                                <span className="text-xs text-gray-500">
+                                    {ratingAverages.rate_lokasi}
+                                </span>
                                 <progress
                                     className="rating-progress"
-                                    value="3"
+                                    value={ratingAverages.rate_lokasi}
+                                    max="5"
+                                ></progress>
+                            </div>
+                            <div className="flex items-center justify-between gap-4 mt-2">
+                                <span className="text-xs text-gray-500">
+                                    {ratingAverages.rate_nilaiekonomis}
+                                </span>
+                                <progress
+                                    className="rating-progress"
+                                    value={ratingAverages.rate_nilaiekonomis}
                                     max="5"
                                 ></progress>
                             </div>
@@ -370,7 +418,9 @@ export default function Location() {
                             <div className="mt-4 text-sm text-gray-600 font-semibold">
                                 <span>
                                     <i className="bi bi-star-fill"></i>{" "}
-                                    <span>4.5</span>
+                                    <span>
+                                        {ratingAverages.rate_kebersihan}
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -381,7 +431,9 @@ export default function Location() {
                             <div className="mt-4 text-sm text-gray-600 font-semibold">
                                 <span>
                                     <i className="bi bi-star-fill"></i>{" "}
-                                    <span>4.5</span>
+                                    <span>
+                                        {ratingAverages.rate_keakuratan}
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -392,7 +444,7 @@ export default function Location() {
                             <div className="mt-4 text-sm text-gray-600 font-semibold">
                                 <span>
                                     <i className="bi bi-star-fill"></i>{" "}
-                                    <span>4.5</span>
+                                    <span>{ratingAverages.rate_checkin}</span>
                                 </span>
                             </div>
                         </div>
@@ -403,7 +455,9 @@ export default function Location() {
                             <div className="mt-4 text-sm text-gray-600 font-semibold">
                                 <span>
                                     <i className="bi bi-star-fill"></i>{" "}
-                                    <span>4.5</span>
+                                    <span>
+                                        {ratingAverages.rate_komunikasi}
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -414,7 +468,7 @@ export default function Location() {
                             <div className="mt-4 text-sm text-gray-600 font-semibold">
                                 <span>
                                     <i className="bi bi-star-fill"></i>{" "}
-                                    <span>4.5</span>
+                                    <span>{ratingAverages.rate_lokasi}</span>
                                 </span>
                             </div>
                         </div>
@@ -425,7 +479,9 @@ export default function Location() {
                             <div className="mt-4 text-sm text-gray-600 font-semibold">
                                 <span>
                                     <i className="bi bi-star-fill"></i>{" "}
-                                    <span>4.5</span>
+                                    <span>
+                                        {ratingAverages.rate_nilaiekonomis}
+                                    </span>
                                 </span>
                             </div>
                         </div>
@@ -433,10 +489,8 @@ export default function Location() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mt-16">
                         <div>
-                            {users.map((user) => {
-                                return (
-                                    <ReviewCard key={user.id} user={user.id} />
-                                );
+                            {location.reviews.slice(0, 5).map((review, id) => {
+                                return <ReviewCard key={id} review={review} />;
                             })}
                         </div>
                     </div>
@@ -447,17 +501,18 @@ export default function Location() {
                     >
                         Tampilkan Semua
                         <span className="font-semibold text-gray-600">
-                            253
+                            {location.reviews.length || 0}
                         </span>{" "}
                         Ulasan
                     </button>
                     <ReviewDialog
                         isOpen={isReviewOpen}
                         setIsOpen={setIsReviewOpen}
-                        reviews={users}
+                        reviews={location.reviews}
+                        ratings={ratingAverages}
                     />
                 </section>
-            </div>
+            </UserLayout>
         </>
     );
 }
