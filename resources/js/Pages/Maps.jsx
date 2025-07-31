@@ -1,90 +1,50 @@
 import Navbar from "@/Components/ui/Navbar";
-import { Head } from "@inertiajs/react";
+import { Head, router } from "@inertiajs/react";
 import DestinationCard from "@/Components/frontend/DestinationCard";
 import Dropdown from "@/Components/ui/Dropdown";
-import {
-    optionsCategories,
-    optionsLocations,
-    optionsPriceRanges,
-    optionsSorts,
-} from "@/Utils/constants";
-import { useState } from "react";
+import { optionsPriceRanges, optionsSorts } from "@/Utils/constants";
+import UserLayout from "@/Layouts/UserLayout";
+import ReactPaginate from "react-paginate";
+import { useState, useEffect } from "react";
 
-export default function Maps() {
-    const [category, setCategory] = useState("all");
-    const [location, setLocation] = useState("all");
-    const [search, setSearch] = useState("");
-    const [priceRange, setPriceRange] = useState("");
-    const [sortBy, setSortBy] = useState("");
+export default function Maps({
+    locations,
+    categories,
+    filters,
+    regions,
+    auth,
+}) {
+    const [category, setCategory] = useState(filters.category || "all");
+    const [location, setLocation] = useState(filters.region || "all");
+    const [search, setSearch] = useState(filters.search || "");
+    const [priceRange, setPriceRange] = useState(filters.price || "");
+    const [sortBy, setSortBy] = useState(filters.sort || "");
 
-    const destinations = [
-        {
-            id: 1,
-            title: "Labuan Bajo",
-            category: "Mountain",
-            price: 500000,
-            time: "8.00AM - 9.30AM",
-            rating: 4.5,
-            image: "/assets/flores.jpg",
-            description: "lorem ipsum dolor sit amet",
-        },
-        {
-            id: 2,
-            title: "Labuan Bajo",
-            category: "Beach",
-            price: 500000,
-            time: "8.00AM - 9.30AM",
-            rating: 4.5,
-            image: "/assets/flores.jpg",
-            description: "lorem ipsum dolor sit amet",
-        },
-        {
-            id: 3,
-            title: "Labuan Bajo",
-            category: "Shop & Market",
-            price: 500000,
-            time: "8.00AM - 9.30AM",
-            rating: 4.5,
-            image: "/assets/flores.jpg",
-            description: "lorem ipsum dolor sit amet",
-        },
-        {
-            id: 4,
-            title: "Labuan Bajo",
-            category: "History & Education",
-            price: 500000,
-            time: "8.00AM - 9.30AM",
-            rating: 4.5,
-            image: "/assets/flores.jpg",
-            description: "lorem ipsum dolor sit amet",
-        },
-        {
-            id: 5,
-            title: "Arts & Culture",
-            category: "Mountain",
-            price: 500000,
-            time: "8.00AM - 9.30AM",
-            rating: 4.5,
-            image: "/assets/flores.jpg",
-            description: "lorem ipsum dolor sit amet",
-        },
-        {
-            id: 6,
-            title: "Labuan Bajo",
-            category: "Theme Park",
-            price: 500000,
-            time: "8.00AM - 9.30AM",
-            rating: 4.5,
-            image: "/assets/flores.jpg",
-            description: "lorem ipsum dolor sit amet",
-        },
-    ];
+    const handleFilterChange = () => {
+        router.get(
+            route("location.maps"),
+            {
+                search,
+                category,
+                region: location,
+                price_range: priceRange,
+                sort: sortBy,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+            }
+        );
+    };
+
+    useEffect(() => {
+        handleFilterChange();
+    }, [category, location, sortBy, priceRange]);
 
     return (
         <>
             <Head title="Maps" />
-            <div>
-                <Navbar />
+            <UserLayout auth={auth}>
                 <section className="relative flex flex-col px-4 items-center font-poppins pt-40">
                     <div className="w-full h-[37.5rem] locations-hero absolute top-0 left-0 -z-10"></div>
                     <div className="flex flex-col md:flex-row gap-8 justify-between items-center container mx-auto">
@@ -96,7 +56,13 @@ export default function Maps() {
                                 Dapatkan Pengalaman Liburan Terbaik di sini
                             </p>
                         </div>
-                        <search className="flex flex-col sm:flex-row gap-4 w-full">
+                        <form
+                            onSubmit={(e) => {
+                                e.preventDefault();
+                                handleFilterChange();
+                            }}
+                            className="flex flex-col sm:flex-row gap-4 w-full"
+                        >
                             <input
                                 type="text"
                                 placeholder="Search for a destination"
@@ -110,24 +76,39 @@ export default function Maps() {
                             >
                                 Search
                             </button>
-                        </search>
+                        </form>
                     </div>
                     <div className="mt-12 flex container mx-auto justify-between flex-wrap gap-4">
                         <div className="flex flex-wrap gap-4">
                             <Dropdown
-                                options={optionsCategories}
+                                options={[
+                                    { label: "Semua Kategori", value: null },
+                                    ...categories.map((item) => ({
+                                        label: item.name,
+                                        value: item.id,
+                                    })),
+                                ]}
                                 value={category}
                                 onChange={setCategory}
+                                placeholder="All Categories"
                             />
                             <Dropdown
-                                options={optionsLocations}
+                                options={[
+                                    { label: "Semua Lokasi", value: null },
+                                    ...regions.map((item) => ({
+                                        label: item.name,
+                                        value: item.id,
+                                    })),
+                                ]}
                                 value={location}
                                 onChange={setLocation}
+                                placeholder="All Locations"
                             />
                             <Dropdown
                                 options={optionsPriceRanges}
                                 value={priceRange}
                                 onChange={setPriceRange}
+                                placeholder="All Price"
                             />
                         </div>
                         <Dropdown
@@ -140,8 +121,8 @@ export default function Maps() {
 
                 <main className="container relative mx-auto px-4 grid grid-cols-12 gap-4 sm:gap-12 mt-12 mb-32 z-10 font-poppins">
                     <div className="flex flex-col gap-12 col-span-12 md:col-span-4">
-                        {destinations.map((item) => (
-                            <DestinationCard item={item} />
+                        {locations.data.map((item, id) => (
+                            <DestinationCard item={item} key={id} />
                         ))}
                     </div>
 
@@ -152,7 +133,40 @@ export default function Maps() {
                         ></div>
                     </div>
                 </main>
-            </div>
+                <div className="container mx-auto px-4 mb-32 z-10 font-poppins">
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="Next →"
+                        onPageChange={(e) =>
+                            router.get(
+                                route("location.maps"),
+                                {
+                                    search,
+                                    category,
+                                    region: location,
+                                    price_range: priceRange,
+                                    sort:sortBy,
+                                    page: e.selected + 1,
+                                },
+                                {
+                                    preserveState: true,
+                                    preserveScroll: true,
+                                }
+                            )
+                        }
+                        pageRangeDisplayed={5}
+                        forcePage={locations.current_page - 1}
+                        pageCount={locations.last_page}
+                        previousLabel="← Prev"
+                        renderOnZeroPageCount={null}
+                        containerClassName="list-unstyled py-4 flex items-center justify-center gap-4 w-full"
+                        previousClassName="mr-auto font-poppins text-gray-500 font-medium hover:cursor-pointer"
+                        nextClassName="ml-auto font-poppins text-gray-500 font-medium hover:cursor-pointer"
+                        pageClassName="w-12 h-12 hover:cursor-pointer grid place-content-center rounded-full aspect-square text-gray-500 hover:bg-primary-transparent font-medium font-poppins"
+                        activeClassName="w-12 h-12 hover:cursor-pointer grid place-content-center rounded-full aspect-square text-gray-500 bg-primary-transparent text-primary-opaque font-medium font-poppins"
+                    />
+                </div>
+            </UserLayout>
         </>
     );
 }
