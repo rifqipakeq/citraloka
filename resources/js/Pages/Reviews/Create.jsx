@@ -9,10 +9,10 @@ import Card from "@/Components/Card";
 import Swal from "sweetalert2";
 
 export default function Create({ auth }) {
-    const { locations } = usePage().props;
+    const { transactions } = usePage().props;
 
     const { data, setData, post, errors } = useForm({
-        location_id: "",
+        transaction_id: "",
         review: "",
     });
 
@@ -32,8 +32,8 @@ export default function Create({ auth }) {
         });
     };
 
-    const selectedLocation = locations.find(
-        (location) => location.id == data.location_id
+    const selectedTransaction = transactions.find(
+        (transaction) => transaction.id == data.transaction_id
     );
 
     return (
@@ -62,40 +62,40 @@ export default function Create({ auth }) {
                         </div>
                         <div className="mb-4">
                             <label className="block font-medium text-sm text-gray-700">
-                                Location
+                                Transaction
                             </label>
                             <select
                                 className="w-full border-gray-300 rounded-md shadow-xs"
-                                value={data.location_id}
+                                value={data.transaction_id}
                                 onChange={(e) =>
-                                    setData("location_id", e.target.value)
+                                    setData("transaction_id", e.target.value)
                                 }
                             >
                                 <option value="">Select Location</option>
-                                {locations.map((location) => (
+                                {transactions.map((transaction) => (
                                     <option
-                                        key={location.id}
-                                        value={location.id}
+                                        key={transaction.id}
+                                        value={transaction.id}
                                     >
-                                        {location.title}
+                                        {transaction.code}
                                     </option>
                                 ))}
                             </select>
-                            {errors.location_id && (
+                            {errors.transaction_id && (
                                 <div className="text-red-500 text-sm mt-1">
-                                    {errors.location_id}
+                                    {errors.transaction_id}
                                 </div>
                             )}
                         </div>
 
-                        {selectedLocation && selectedLocation.image && (
+                        {selectedTransaction && selectedTransaction.image && (
                             <div className="mb-4">
                                 <label className="block font-medium text-sm text-gray-700">
                                     Preview Image
                                 </label>
                                 <img
-                                    src={selectedLocation.image}
-                                    alt={selectedLocation.title}
+                                    src={selectedTransaction.image}
+                                    alt={selectedTransaction.title}
                                     className="w-full h-48 object-cover rounded-md shadow-sm"
                                 />
                             </div>
