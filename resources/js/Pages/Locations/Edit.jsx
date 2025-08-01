@@ -9,14 +9,15 @@ import Card from "@/Components/Card";
 import { Editor } from "@tinymce/tinymce-react";
 
 export default function Edit({ auth }) {
-    const { location, categories, tickets } = usePage().props;
+    const { regions, categories, tickets, location } = usePage().props;
 
-    const { data, setData, post, errors } = useForm({
+    const { data, setData, post, errors, progress } = useForm({
         title: location.title,
         description: location.description,
         officehours: location.officehours,
         category_id: location.category_id,
-        ticket_id: location.ticket_id,
+        ticket_ids: location.ticket_ids || {},
+        region_id: location.region_id,
         phone: location.phone,
         address: location.address,
         latitude: location.latitude,
@@ -137,29 +138,71 @@ export default function Edit({ auth }) {
                             </div>
                         )}
 
-                        <label className="block">Ticket</label>
+                        <label className="block">Region</label>
                         <select
-                            value={data.ticket_id}
+                            value={data.region_id}
                             onChange={(e) =>
-                                setData("ticket_id", e.target.value)
+                                setData("region_id", e.target.value)
                             }
                             className="w-full p-2 border rounded-sm mb-4"
                         >
-                            <option value="">Select Ticket</option>
-                            {tickets.map((ticket) => (
-                                <option value={ticket.id} key={ticket.id}>
-                                    {ticket.ticket_code}
+                            <option value="">Select Region</option>
+                            {regions.map((region) => (
+                                <option value={region.id} key={region.id}>
+                                    {region.name}
                                 </option>
                             ))}
                         </select>
-                        {errors.ticket_id && (
+                        {errors.region_id && (
                             <div className="text-red-500 text-sm mt-1">
-                                {errors.ticket_id}
+                                {errors.region_id}
                             </div>
                         )}
 
+                        <div>
+                            <label className="block">Ticket</label>
+                            {Object.entries(tickets).map(
+                                ([category, ticketList]) => (
+                                    <div key={category} className="mb-4">
+                                        <label className="text-sm font-semibold text-gray-600 mb-1 block">
+                                            {category} Tickets
+                                        </label>
+                                        <select
+                                            value={
+                                                data.ticket_ids[category] || ""
+                                            }
+                                            onChange={(e) => {
+                                                setData("ticket_ids", {
+                                                    ...data.ticket_ids,
+                                                    [category]: e.target.value,
+                                                });
+                                            }}
+                                            className="w-full p-2 border rounded-sm"
+                                        >
+                                            <option value="">
+                                                Select {category} Ticket
+                                            </option>
+                                            {ticketList.map((ticket) => {
+                                                <option
+                                                    value={ticket.id}
+                                                    key={ticket.id}
+                                                >
+                                                    {ticket.ticket_code}
+                                                </option>;
+                                            })}
+                                        </select>
+                                    </div>
+                                )
+                            )}
+                            {errors.ticket_ids && (
+                                <div className="text-red-500 text-sm mt-1">
+                                    {errors.ticket_ids}
+                                </div>
+                            )}
+                        </div>
+
                         <label className="block mb-1 font-semibold">
-                            Images (mulltiple allowed)
+                            Upload New Images
                         </label>
                         <input
                             type="file"

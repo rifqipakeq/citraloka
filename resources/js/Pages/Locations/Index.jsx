@@ -68,25 +68,25 @@ export default function Index({ auth }) {
                                     </Table.Td>
                                     <Table.Td>{location.title}</Table.Td>
                                     <Table.Td>
-                                        {location.image ? (
+                                        {location.image_urls ? (
                                             <div className="flex flex-col gap-2">
-                                                {location.image
-                                                    .split("|")
-                                                    .map((img, id) => (
+                                                {location.image_urls.map(
+                                                    (img, id) => (
                                                         <img
                                                             key={id}
-                                                            src={`/storage/${img}`}
+                                                            src={img}
                                                             alt={`Image ${
                                                                 id + 1
                                                             }`}
                                                             className="w-16 h-16 object-cover rounded-md cursor-pointer hover:opacity-75 transition"
                                                             onClick={() =>
                                                                 setSelectedImage(
-                                                                    `/storage/${img}`
+                                                                    img
                                                                 )
                                                             }
                                                         />
-                                                    ))}
+                                                    )
+                                                )}
                                             </div>
                                         ) : (
                                             <span className="text-gray-500">
