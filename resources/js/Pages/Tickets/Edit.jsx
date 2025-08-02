@@ -9,10 +9,11 @@ import Card from "@/Components/Card";
 import Swal from "sweetalert2";
 
 export default function Edit({ auth }) {
-    const { ticket } = usePage().props;
+    const { ticket, categories } = usePage().props;
 
     const { data, setData, post, errors, processing } = useForm({
         name: ticket.name,
+        ticket_category_id: ticket.ticket_category_id,
         qty: ticket.qty,
         price_per_pack: ticket.price_per_pack,
         _method: "put",
@@ -53,17 +54,23 @@ export default function Edit({ auth }) {
                             </label>
                             <select
                                 className="mt-1 block w-full border-gray-300 rounded-md shadow-md focus:border-blue-300 focus:ring-opacity-50 "
-                                value={data.name}
+                                value={data.ticket_category_id}
                                 onChange={(e) =>
-                                    setData("name", e.target.value)
+                                    setData("ticket_category_id", e.target.value)
                                 }
                             >
-                                <option value="Regular">Regular</option>
-                                <option value="VIP">VIP</option>
+                                {categories.map((category) => {
+                                    <option
+                                        key={category.id}
+                                        value={category.id}
+                                    >
+                                        {category.name}
+                                    </option>;
+                                })}
                             </select>
-                            {errors.name && (
+                            {errors.ticket_category_id && (
                                 <div className="text-red-500 text-sm mt-1">
-                                    {errors.name}
+                                    {errors.ticket_category_id}
                                 </div>
                             )}
                         </div>
