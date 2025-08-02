@@ -8,9 +8,10 @@ import { Head, useForm } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import Swal from "sweetalert2";
 
-export default function Create({ auth }) {
+export default function Create({ auth, categories }) {
     const { data, setData, post, errors, processing } = useForm({
         name: "",
+        ticket_category_id: "",
         qty: "",
         price_per_pack: "",
     });
@@ -50,14 +51,24 @@ export default function Create({ auth }) {
                             </label>
                             <select
                                 className="mt-1 block w-full border-gray-300 rounded-md shadow-md focus:border-blue-300 focus:ring-opacity-50 "
-                                value={data.name}
+                                value={data.ticket_category_id}
                                 onChange={(e) =>
-                                    setData("name", e.target.value)
+                                    setData(
+                                        "ticket_category_id",
+                                        e.target.value
+                                    )
                                 }
                             >
                                 <option value="">Select Ticket Type</option>
-                                <option value="Regular">Regular</option>
-                                <option value="VIP">VIP</option>
+                                {categories.map((category) => {
+                                    <option
+                                        key={category.id}
+                                        value={category.id}
+                                    >
+                                        {category.name}
+                                    </option>;
+                                })}
+
                             </select>
                             {errors.name && (
                                 <div className="text-red-500 text-sm mt-1">
