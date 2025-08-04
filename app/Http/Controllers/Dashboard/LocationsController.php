@@ -44,7 +44,7 @@ class LocationsController extends Controller implements HasMiddleware
     {
         $categories = Categories::orderBy('name', 'ASC')->get();
         $tickets = Ticket::with('category')
-            ->orderByRaw('CAST (SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')
+            ->orderByRaw('CAST(SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')
             ->get()
             ->groupBy(function ($ticket){
                 return $ticket->category->name ?? 'Uncategorized';

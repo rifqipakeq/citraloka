@@ -10,7 +10,6 @@ import Swal from "sweetalert2";
 
 export default function Create({ auth, categories }) {
     const { data, setData, post, errors, processing } = useForm({
-        name: "",
         ticket_category_id: "",
         qty: "",
         price_per_pack: "",
@@ -37,13 +36,13 @@ export default function Create({ auth, categories }) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Ticekts
+                    Tickets
                 </h2>
             }
         >
-            <Head title={"Create Ticekts"} />
+            <Head title={"Create Tickets"} />
             <Container>
-                <Card title={"Create New Ticekts"}>
+                <Card title={"Create New Tickets"}>
                     <form onSubmit={handleCreateData}>
                         <div className="mb-4">
                             <label className="block font-medium text-sm text-gray-700">
@@ -60,15 +59,14 @@ export default function Create({ auth, categories }) {
                                 }
                             >
                                 <option value="">Select Ticket Type</option>
-                                {categories.map((category) => {
+                                {categories.map((category) => (
                                     <option
                                         key={category.id}
                                         value={category.id}
                                     >
                                         {category.name}
-                                    </option>;
-                                })}
-
+                                    </option>
+                                ))}
                             </select>
                             {errors.name && (
                                 <div className="text-red-500 text-sm mt-1">
@@ -114,7 +112,10 @@ export default function Create({ auth, categories }) {
                         </div>
 
                         <div className="flex items-center gap-2">
-                            <Button type={"submit"}> Save </Button>
+                            <Button type="submit" disabled={processing}>
+                                {" "}
+                                Save{" "}
+                            </Button>
                             <Button
                                 type={"cancel"}
                                 url={route("tickets.index")}

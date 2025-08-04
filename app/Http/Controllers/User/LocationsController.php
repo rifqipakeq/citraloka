@@ -23,7 +23,7 @@ class LocationsController extends Controller
 
         $query = Locations::query()
             ->with(['category','ticket','ticket.ticketCategory'])
-            ->leftJoin(['reviews','locations.id','=','reviews.location_id'])
+            ->leftJoin('reviews','locations.id','=','reviews.location_id')
             ->select(
                 'locations.*',
                 DB::raw(
@@ -75,7 +75,7 @@ class LocationsController extends Controller
 
         $query = Locations::query()
             ->with(['category','ticket','ticket.ticketCategory'])
-            ->leftJoin(['reviews','locations.id','=','reviews.locations_id'])
+            ->leftJoin('reviews','locations.id','=','reviews.location_id')
             ->select(
                 'locations.*',
                 DB::raw(

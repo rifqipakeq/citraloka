@@ -1,7 +1,5 @@
 import React from "react";
-import Navbar from "@/Components/ui/Navbar";
 import { Head } from "@inertiajs/react";
-import { categories } from "@/Utils/constants";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
 import UserLayout from "@/Layouts/UserLayout";
@@ -56,7 +54,7 @@ export default function Welcome({ categories, auth }) {
                 </section>
 
                 <main className="container mx-auto grid md:grid-cols-3 grid-cols-1 gap-12 my-32 px-4">
-                    {categories.map((category, index) => {
+                    {categories.map((category, index) => (
                         <div
                             key={index}
                             onClick={() =>
@@ -72,8 +70,8 @@ export default function Welcome({ categories, auth }) {
                                 className="w-full"
                                 draggable="false"
                             />
-                        </div>;
-                    })}
+                        </div>
+                    ))}
                 </main>
             </UserLayout>
         </>

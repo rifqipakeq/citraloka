@@ -10,6 +10,7 @@ import { Editor } from "@tinymce/tinymce-react";
 
 export default function Create({ auth }) {
     const { categories, tickets, regions } = usePage().props;
+    console.log(tickets);
 
     const { data, setData, post, errors, progress } = useForm({
         title: "",
@@ -33,7 +34,7 @@ export default function Create({ auth }) {
         formData.append("description", data.description);
         formData.append("officehours", data.officehours);
         formData.append("category_id", data.category_id);
-        formData.append("ticket_id", data.ticket_id);
+        // formData.append("ticket_id", data.ticket_id);
         formData.append("phone", data.phone);
         formData.append("address", data.address);
         formData.append("latitude", data.latitude);
@@ -213,7 +214,7 @@ export default function Create({ auth }) {
                                         })}
                                     </select>
                                 </div>
-                        )
+                            )
                         )}
                         {errors.ticket_ids && (
                             <div className="text-red-500 text-sm mt-1">

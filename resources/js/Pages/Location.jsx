@@ -30,7 +30,7 @@ export default function Location({ locations, filters, categories, auth }) {
     return (
         <>
             <Head title="Welcome" />
-            <UserLayout>
+            <UserLayout auth={auth}>
                 <section className="relative flex flex-col px-4 items-center font-poppins pt-40">
                     <div className="w-full h-[37.5rem] locations-hero absolute top-0 left-0 -z-10"></div>
                     <div className="flex flex-col md:flex-row gap-8 justify-between items-center container mx-auto">

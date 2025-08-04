@@ -26,7 +26,6 @@ Route::get('/location/{id}', [LocationDetailController::class, 'index'])->name('
 Route::get('/maps', [UserLocationsController::class, 'maps'])->name('location.maps');
 
 
-
 Route::middleware(['auth'])->prefix('dashboard')->group(function () {
     
     Route::get('/dashboard', function () {

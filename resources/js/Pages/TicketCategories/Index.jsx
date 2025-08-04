@@ -25,11 +25,11 @@ export default function Index({ auth }) {
             <Container>
                 <div className="mb-4 flex items-center justify-between gap-4">
                     {hasAnyPermission(["tickets create"]) && (
-                        <Button type={"add"} url={route("tickets.create")} />
+                        <Button type={"add"} url={route("ticket-categories.create")} />
                     )}
                     <div className="w-full md:w-4.6">
                         <Search
-                            url={route("tickets.index")}
+                            url={route("ticket-categories.index")}
                             placeholder={"Search Ticket Category by Name..."}
                             filter={filters}
                         />
