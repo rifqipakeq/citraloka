@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
+@plugin '@tailwindcss/forms';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php;'
+@source '../../storage/framework/views/*.php';
+
 @theme extend {
   --color-primary-opaque: #37afe1;
   --color-primary-hover: #2499c9;
@@ -20,6 +24,14 @@
 }
 
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button{
+    border-color:var(--color-gray-200, currentcolor);
+  }
+  
   progress {
     @apply appearance-none bg-gray-200 rounded-lg h-1;
   }

@@ -51,7 +51,7 @@ Route::middleware(['auth'])->prefix('dashboard')->group(function () {
 
     Route::resource('/reviews', ReviewsController::class);
 
-    Route::put('/reviews/{id}', [ReviewsController::class, 'update'])->name('reviews.update');
+    // Route::put('/reviews/{id}', [ReviewsController::class, 'update'])->name('reviews.update');
 
     Route::resource('/transactions', TransactionController::class);
     

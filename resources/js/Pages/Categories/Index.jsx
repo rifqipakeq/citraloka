@@ -57,7 +57,7 @@ export default function Index({ auth }) {
                                     <Table.Td>
                                         {category.image ? (
                                             <img
-                                                src={`/storage/${category.name}`}
+                                                src={`/storage/${category.image}`}
                                                 alt={category.name}
                                                 className="w-16 h-16 object-cover rounded-md"
                                             />

@@ -14,7 +14,7 @@ class HomeController extends Controller
     public function index()
     {
         return Inertia('Welcome', [
-            'categoris' => Categories::all()
+            'categories' => Categories::all()
         ]);
     }
 
