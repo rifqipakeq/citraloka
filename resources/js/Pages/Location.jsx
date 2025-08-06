@@ -96,10 +96,17 @@ export default function Location({ locations, filters, categories, auth }) {
 
                 <main className="container px-4 relative mx-auto mt-12 mb-32 z-10 font-poppins">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-8">
-                        {locations.data &&
+                        {locations.data.length > 0 ? (
                             locations.data.map((item, id) => (
                                 <DestinationCard item={item} key={id} />
-                            ))}
+                            ))
+                        ) : (
+                            <div className="col-span-12 text-center py-20">
+                                <h1 className="text-2xl font-semibold text-gray-500">
+                                    No Location Found
+                                </h1>
+                            </div>
+                        )}
                         <ReactPaginate
                             breakLabel="..."
                             nextLabel="Next →"

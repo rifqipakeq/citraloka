@@ -14,7 +14,7 @@ export default function Dropdown({
     };
 
     return (
-        <div className="relative inline-block w-fit">
+        <div className="relative inline-block min-w-32">
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="w-full bg-white text-gray-600 hover:cursor-pointer hover:bg-gray-100 font-medium py-2 px-4 text-sm rounded-full border flex justify-between items-center"

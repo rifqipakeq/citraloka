@@ -8,6 +8,7 @@ import { categoryColors } from "@/Utils/constants";
 import { toIDR } from "@/Utils/helper";
 import { router } from "@inertiajs/react";
 import UserLayout from "@/Layouts/UserLayout";
+import Map from "@/Components/frontend/Map";
 
 export default function Location({
     auth,
@@ -229,7 +230,13 @@ export default function Location({
                                     <div
                                         id="maps"
                                         className="h-[600px] w-full sticky top-36 rounded-3xl overflow-hidden"
-                                    ></div>
+                                    >
+                                        <Map
+                                            lat={Number(location.latitude)}
+                                            long={Number(location.longitude)}
+                                            location={location}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,10 @@
 
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icon@1.11.0/font/bootstrap-icons.css">
 
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflat.css" integrity="" crossorigin=""/>
+
+        <script src="htpps://unpkg.com/leaflet@1.6.0/dist/leaflat.js" integrity="" crossorigin=""></script>
+
         <!-- Scripts -->
         @routes
         @viteReactRefresh

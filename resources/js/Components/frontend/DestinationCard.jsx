@@ -2,7 +2,7 @@ import { router } from "@inertiajs/react";
 import { categoryColors } from "@/Utils/constants";
 import { toIDR } from "@/Utils/helper";
 
-export default function DestinationCard({ item }) {
+export default function DestinationCard({ item, action }) {
     const handleClick = () => {
         if(typeof action === "function"){
             action();
