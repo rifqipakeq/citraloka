@@ -1,5 +1,4 @@
-import React from "react";
-
+import { useState, useRef, useEffect } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Container from "@/Components/Container";
 import Input from "@/Components/Input";
@@ -7,6 +6,8 @@ import Button from "@/Components/Button";
 import { Head, useForm, usePage } from "@inertiajs/react";
 import Card from "@/Components/Card";
 import { Editor } from "@tinymce/tinymce-react";
+import Map from "@/Components/frontend/Map";
+import Swal from "sweetalert2";
 
 export default function Create({ auth }) {
     const { categories, tickets, regions } = usePage().props;
@@ -26,6 +27,19 @@ export default function Create({ auth }) {
         image: [],
     });
 
+    const [search, setSearch] = useState("");
+    const [position, setPosition] = useState([51.505, -0.09]);
+    const [markerText, setMarkerText] = useState("Default Location");
+    const inputRef = useRef();
+
+    useEffect(() => {
+        const lat = parseFloat(data.latitude);
+        const lng = parseFloat(data.longitude);
+        if (!isNan(lat) && !isNan(lng)) {
+            setPosition([lat, lng]);
+        }
+    }, [data.latitude, data.longitude]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -34,7 +48,6 @@ export default function Create({ auth }) {
         formData.append("description", data.description);
         formData.append("officehours", data.officehours);
         formData.append("category_id", data.category_id);
-        // formData.append("ticket_id", data.ticket_id);
         formData.append("phone", data.phone);
         formData.append("address", data.address);
         formData.append("latitude", data.latitude);
@@ -55,6 +68,46 @@ export default function Create({ auth }) {
             data: formData,
             forceFormData: true,
         });
+    };
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        if (!search.trim()) return;
+        const query = encodeURIComponent(search);
+        const url = `https://nominatim.openstreetmap.org/search?format=json&q=${query}`;
+        try {
+            const res = await fetch(url);
+            const data = await res.json();
+            if (data.length > 0) {
+                const lat = parseFloat(data[0].lat);
+                const lng = parseFloat(data[0].lng);
+                setPosition([lat, lng]);
+                setData("latitude: ", lat);
+                setData("longitude: ", lng);
+                setData("address: ", data[0].display_name);
+                setMarkerText(data[0].display_name);
+            } else {
+                Swal.fire({
+                    title: "Failed!",
+                    text: "Location Not Found",
+                    icon: "error",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+            }
+        } catch (err) {
+            Swal.fire({
+                title: "Failed!",
+                text: "Location Not Found",
+                icon: "error",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") handleSearch(e);
     };
 
     return (
@@ -141,6 +194,35 @@ export default function Create({ auth }) {
                             }
                             errors={errors.longitude}
                         />
+
+                        <div className="my-4">
+                            <Input
+                                label="Search Location"
+                                type="text"
+                                ref={inputRef}
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                onKeyDown={handleKeyDown}
+                                placeholder="Search for a place.."
+                            />
+                            <div className="w-full mt-5">
+                                <div
+                                    id="maps"
+                                    className="h-[600px] w-full sticky top-36 rounded-3xl overflow-hidden"
+                                >
+                                    <Map
+                                        lat={position[0]}
+                                        long={position[1]}
+                                        onMarkerDragEnd={({ lat, lng }) => {
+                                            setData("latitude: ", lat);
+                                            setData("longitude: ", lng);
+                                            setPosition([lat, lng]);
+                                        }}
+                                        customMarker = {markerText}
+                                    />
+                                </div>
+                            </div>
+                        </div>
 
                         <label className="block">Category</label>
                         <select
