@@ -7,7 +7,7 @@ export default function MapPopup({ location }) {
             <div>
                 <p
                     className={`text-sm text-white font-semibold px-5 py-2.5 rounded-full w-fit ${
-                        categoryColors[location.category.id]
+                        categoryColors[location?.category?.id]
                     }`}
                 >
                     {location.category.name}
@@ -17,12 +17,12 @@ export default function MapPopup({ location }) {
                 <div className="flex justify-between items-end mt-5 text-lg font-semibold">
                     <p className="!m-0">{location.title}</p>
                     <div>
-                        <p className="text-xs text-right font-medium text-grat-500 !,-0">
+                        <p className="text-xs text-right font-medium text-gray-500 !m-0">
                             {toIDR(location.start_from)}
                         </p>
                     </div>
                 </div>
-                <div className="text-sm text-gray-400 felx items-center gap-2 font-semibold">
+                <div className="text-sm text-gray-400 flex items-center gap-2 font-semibold">
                     <i className="bi bi-clock-fill"></i>
                     <p className="!m-0">{location.officehours}</p>
                 </div>
