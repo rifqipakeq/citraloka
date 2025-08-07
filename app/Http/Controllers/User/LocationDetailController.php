@@ -42,6 +42,9 @@ class LocationDetailController extends Controller
 
         $ticketCategories = TicketCategory::whereIn('id', $ticketCategoriesIds)->get();
 
+        $minPrice = $location->ticket->min('price_per_pack');
+        $location->start_from = $minPrice ?? 0;
+
         return Inertia::render('Details',[
             'location' => $location,
             'ratingAverages' => $ratingAverage,
