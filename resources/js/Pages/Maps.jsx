@@ -1,4 +1,3 @@
-import Navbar from "@/Components/ui/Navbar";
 import { Head, router } from "@inertiajs/react";
 import DestinationCard from "@/Components/frontend/DestinationCard";
 import Dropdown from "@/Components/ui/Dropdown";
@@ -6,6 +5,7 @@ import { optionsPriceRanges, optionsSorts } from "@/Utils/constants";
 import UserLayout from "@/Layouts/UserLayout";
 import ReactPaginate from "react-paginate";
 import { useState, useEffect } from "react";
+import Map from "@/Components/frontend/Map";
 
 export default function Maps({
     locations,
@@ -19,6 +19,10 @@ export default function Maps({
     const [search, setSearch] = useState(filters.search || "");
     const [priceRange, setPriceRange] = useState(filters.price || "");
     const [sortBy, setSortBy] = useState(filters.sort || "");
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [selectedLocationDetail, setSelectedLocationDetail] = useState(
+        locations.data[0]
+    );
 
     const handleFilterChange = () => {
         router.get(
@@ -40,6 +44,15 @@ export default function Maps({
     useEffect(() => {
         handleFilterChange();
     }, [category, location, sortBy, priceRange]);
+
+    useEffect(() => {
+        if (selectedLocation) {
+            const selectedLocationData = locations.data.find(
+                (item) => item.id === selectedLocation
+            );
+            setSelectedLocationDetail(selectedLocationData);
+        }
+    }, [selectedLocation, locations.data]);
 
     return (
         <>
@@ -120,18 +133,40 @@ export default function Maps({
                 </section>
 
                 <main className="container relative mx-auto px-4 grid grid-cols-12 gap-4 sm:gap-12 mt-12 mb-32 z-10 font-poppins">
-                    <div className="flex flex-col gap-12 col-span-12 md:col-span-4">
-                        {locations.data.map((item, id) => (
-                            <DestinationCard item={item} key={id} />
-                        ))}
-                    </div>
+                    {locations.data.length === 0 ? (
+                        <div className="col-span-12 text-center py-20">
+                            <h1 className="text-2xl font-semibold text-gray-500">
+                                No Location Found
+                            </h1>
+                        </div>
+                    ) : (
+                        <>
+                            <div className="flex flex-col gap-12 col-span-12 md:col-span-4">
+                                {location.data.map((item, id) => (
+                                    <DestinationCard
+                                        item={item}
+                                        key={id}
+                                        action={() =>
+                                            setSelectedLocation(item.id)
+                                        }
+                                    />
+                                ))}
+                            </div>
 
-                    <div className="col-span-12 md:col-span-8">
-                        <div
-                            id="maps"
-                            className="h-[600px] w-full sticky top-36 rounded-3xl overflow-hidden"
-                        ></div>
-                    </div>
+                            <div className="col-span-12 md:col-span-8">
+                                <div
+                                    id="maps"
+                                    className="h-[600px] w-full sticky top-36 rounded-3xl overflow-hidden"
+                                >
+                                    <Map
+                                        lat={selectedLocationDetail.latitude}
+                                        long={selectedLocationDetail.longitude}
+                                        location={selectedLocationDetail}
+                                    />
+                                </div>
+                            </div>
+                        </>
+                    )}
                 </main>
                 <div className="container mx-auto px-4 mb-32 z-10 font-poppins">
                     <ReactPaginate
@@ -145,7 +180,7 @@ export default function Maps({
                                     category,
                                     region: location,
                                     price_range: priceRange,
-                                    sort:sortBy,
+                                    sort: sortBy,
                                     page: e.selected + 1,
                                 },
                                 {
