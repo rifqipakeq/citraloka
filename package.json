@@ -1,0 +1,37 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "vite build && vite build --ssr",
+        "dev": "vite"
+    },
+    "devDependencies": {
+        "@headlessui/react": "^2.0.0",
+        "@inertiajs/react": "^2.0.0",
+        "@tailwindcss/forms": "^0.5.3",
+        "@tailwindcss/postcss": "^4.1.7",
+        "@tailwindcss/vite": "^4.1.7",
+        "@vitejs/plugin-react": "^4.2.0",
+        "axios": "^1.8.2",
+        "concurrently": "^9.0.1",
+        "laravel-vite-plugin": "^1.2.0",
+        "postcss": "^8.4.31",
+        "react": "^19.1.0",
+        "react-dom": "^19.1.0",
+        "tailwindcss": "^4.1.7",
+        "vite": "^6.2.4"
+    },
+    "dependencies": {
+        "@radix-ui/react-dialog": "^1.1.6",
+        "@shadcn/ui": "^0.0.4",
+        "@tabler/icons-react": "^3.31.0",
+        "@tinymce/tinymce-react": "^6.1.0",
+        "clsx": "^2.1.1",
+        "leaflet": "^1.9.4",
+        "react-leaflet": "^5.0.0",
+        "react-paginate": "^8.3.0",
+        "react-select": "^5.10.1",
+        "sweetalert2": "^11.21.0",
+        "tinymce": "^7.7.1"
+    }
+}

@@ -1,0 +1,40 @@
+/node_modules
+/public/build
+/public/hot
+/public/storage
+/storage/*.key
+/storage/app/public
+/storage/framework/cache/data
+/storage/framework/sessions
+/storage/framework/testing
+/storage/framework/views
+/storage/logs
+/vendor
+.env
+.env.backup
+.env.*
+/.idea
+/.vscode
+/.phpunit.result.cache
+/phpunit.xml
+Homestead.yaml
+Homestead.json
+npm-debug.log
+yarn-error.log
+.pnpm-debug.log
+
+# Laravel Octane
+/.config/octane
+
+# Inertia SSR output (jika memakai server-side rendering)
+resources/js/ssr/manifest.json
+bootstrap/ssr
+
+# Vite build artifacts
+/.vite
+/.vite-build
+/.vite-cache
+
+# OS cache
+.DS_Store
+Thumbs.db
