@@ -9,7 +9,7 @@ import { toIDR, calculateRating } from "@/Utils/helper";
 import { router } from "@inertiajs/react";
 import UserLayout from "@/Layouts/UserLayout";
 import Map from "@/Components/frontend/Map";
-
+ 
 export default function Location({
     location,
     ratingAverages,
