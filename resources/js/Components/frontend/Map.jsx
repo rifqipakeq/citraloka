@@ -63,6 +63,8 @@ const NavigationRoute = ({ userLocation, destination, maxAlternatives = 3 }) => 
 
         const res = await fetch(url);
         const data = await res.json();
+        
+        console.log("OSRM Route Data:", data);
 
         // Proses data rute
         if (data.code === "Ok" && data.routes?.length > 0) {

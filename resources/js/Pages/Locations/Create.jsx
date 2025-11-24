@@ -30,7 +30,7 @@ export default function Create({auth}) {
     });
 
     const [search, setSearch] = useState("");
-    const [position, setPosition] = useState([51.505, -0.09]); // Default: London
+    const [position, setPosition] = useState([-7.801152112787544, 110.36479628079519]); // Default: London
     const [markerText, setMarkerText] = useState("Default Location");
     const inputRef = useRef();
     useEffect(() => {
