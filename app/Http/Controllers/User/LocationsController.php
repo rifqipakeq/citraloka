@@ -10,6 +10,10 @@ use App\Models\Region;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
+use function PHPSTORM_META\map;
 
 class LocationsController extends Controller
 {
@@ -19,19 +23,19 @@ class LocationsController extends Controller
         $categoryId = $request->query('category');
 
         $query = Locations::query()
-        ->with(['category', 'ticket', 'ticket.ticketCategory'])
-        ->leftJoin('reviews', 'locations.id', '=', 'reviews.location_id')
-        ->select(
-            'locations.*',
-            DB::raw('ROUND(( 
+            ->with(['category', 'ticket', 'ticket.ticketCategory'])
+            ->leftJoin('reviews', 'locations.id', '=', 'reviews.location_id')
+            ->select(
+                'locations.*',
+                DB::raw('ROUND(( 
                 (rate_kebersihan + rate_keakuratan + rate_checkin + rate_komunikasi + rate_lokasi + rate_nilaiekonomis) / 6
             ), 2) as average_rating')
-        );
+            );
 
         if ($search) {
             $query->where('locations.title', 'like', '%' . $search . '%');
         }
-    
+
         if ($categoryId) {
             $query->where('locations.category_id', $categoryId);
         }
@@ -45,7 +49,7 @@ class LocationsController extends Controller
         });
 
         $categories = Categories::select('id', 'name')->get();
-    
+
         return Inertia::render('Location', [
             'locations' => $locations,
             'filters' => [
@@ -88,7 +92,7 @@ class LocationsController extends Controller
 
         if ($priceRange && $priceRange !== 'all') {
             [$minPrice, $maxPrice] = explode('-', $priceRange);
-            
+
             $query->whereHas('ticket', function ($q) use ($minPrice, $maxPrice) {
                 if ($minPrice) {
                     $q->where('price_per_pack', '>=', $minPrice);
@@ -138,4 +142,33 @@ class LocationsController extends Controller
         ]);
     }
 
+    public function nearestDestinations(Request $request)
+    {
+        $userLocation = [
+            'lat' => $request->input('lat'),
+            'lng' => $request->input('lng'),
+            'max_distance_km' => $request->input('max_distance_km', 10),
+        ];
+
+        Log::info('User Location: ' . print_r($userLocation, true));
+        $R = 6371;
+        $locations = Locations::selectRaw("
+        *, 
+        ($R * acos(
+            cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) +
+            sin(radians(?)) * sin(radians(latitude))
+        )) AS distance
+    ", [$userLocation["lat"], $userLocation["lng"], $userLocation["lat"]])
+            ->whereNotNull('latitude')
+            ->orderBy('distance', 'ASC')
+            ->limit(5)
+            ->get();
+
+        Log::info('Nearest Locations: ' . print_r($locations->values(), true));
+
+
+        return response()->json([
+            'locations' => $locations->values(),
+        ]);
+    }
 }

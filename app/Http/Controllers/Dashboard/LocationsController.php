@@ -229,4 +229,5 @@ class LocationsController extends Controller implements HasMiddleware
 
         return back();
     }
+
 }

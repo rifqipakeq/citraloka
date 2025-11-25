@@ -13,7 +13,7 @@ export default function Create({ auth }) {
         name: "",
     });
 
-    // Handle submit form
+
     const handleCreateData = async (e) => {
         e.preventDefault();
 
