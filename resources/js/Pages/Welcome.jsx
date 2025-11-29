@@ -5,9 +5,14 @@ import { useState } from "react";
 
 import { router } from "@inertiajs/react";
 import UserLayout from "@/Layouts/UserLayout";
+import NearestDestination from "@/Components/frontend/NearestDestination.jsx";
+import NearestLocations from "@/Components/frontend/NearestDestination.jsx";
+import FloatingChatbot from "@/Components/ui/FloatingChatbot.jsx";
 
-export default function Welcome({categories, auth }) {
+export default function Welcome({ categories, auth }) {
     const [search, setSearch] = useState("");
+
+    console.log(categories);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -28,63 +33,70 @@ export default function Welcome({categories, auth }) {
                         >
                             Find The Best Vacation Spots
                         </h1>
-
-                        <div
-                            className="absolute left-1/2 bottom-[-4rem] transform -translate-x-1/2 bg-white rounded-4xl shadow-custom px-8 py-10 w-[90%] max-w-[800px] z-10"
-                        >
-                            <div className="mb-6 sm:mb-10">
+                    <div
+                        className="absolute left-1/2 bottom-[-4rem] transform -translate-x-1/2 bg-white rounded-4xl shadow-custom px-8 py-10 w-[90%] max-w-[800px] z-10"
+                    >
+                        <div className="mb-6 sm:mb-10">
                             <p className="text-lg font-semibold mb-1.5 text-primary-opaque">
                                 Find Destinations
                             </p>
                             <p className="text-gray-500">
                                 Discover the Best Destination in Yogyakarta
                             </p>
-                            </div>
-                            <form 
-                                className="flex flex-col sm:flex-row gap-4 w-full"
-                                onSubmit={handleSearch}
-                            >
-                                <input
-                                    type="text"
-                                    placeholder="Search for a destination"
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    className="w-full h-12 px-4 rounded-xl border border-gray-300"
-                                />
-                                <button
-                                    type="submit"
-                                    className="py-3.5 px-8 text-white rounded-xl font-semibold bg-primary-opaque hover:cursor-pointer hover:bg-primary-hover transition-all"
-                                >
-                                    Search
-                                </button>
-                            </form>
                         </div>
-                    </section>
-
-                    <main
-                        className="container mx-auto grid md:grid-cols-3 grid-cols-1 gap-12 my-32 px-4"
+                        <form
+                            className="flex flex-col sm:flex-row gap-4 w-full"
+                            onSubmit={handleSearch}
                         >
-                            {categories.map((category, index) => (
-                                <div 
-                                    key={index}
-                                    onClick={() =>
-                                        router.get(route("location.index"), {
-                                            category: category.id,
-                                        })
-                                    }
-                                    className="relative flex flex-col items-center hover:cursor-pointer"
-                                >
-                                    <img
-                                        src={category.image_url}
-                                        alt={category.name}
-                                        className="w-full"
-                                        draggable="false"
-                                    />
-                                    
-                                </div>
-                            ))}
-                    </main>
-                </UserLayout>    
+                            <input
+                                type="text"
+                                placeholder="Search for a destination"
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full h-12 px-4 rounded-xl border border-gray-300"
+                            />
+                            <button
+                                type="submit"
+                                className="py-3.5 px-8 text-white rounded-xl font-semibold bg-primary-opaque hover:cursor-pointer hover:bg-primary-hover transition-all"
+                            >
+                                Search
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <main
+                    className="container mx-auto grid grid-cols-1 gap-12 my-32 px-4"
+                >
+                    <div>
+                        <NearestLocations />
+                    </div>
+                    <div className="container mx-auto grid md:grid-cols-4 grid-cols-1 gap-12 my-32 px-4">
+                        {categories.map((category, index) => (
+                            <div
+                                key={index}
+                                onClick={() =>
+                                    router.get(route("location.index"), {
+                                        category: category.id,
+                                    })
+                                }
+                                className="relative flex flex-col items-center hover:cursor-pointer"
+                            >
+                                <img
+                                    src={category.image}
+                                    alt={category.name}
+                                    className="w-full"
+                                    draggable="false"
+                                />
+
+                            </div>
+                        ))}
+                    </div>
+                </main>
+
+                {/* Floating Chatbot */}
+                <FloatingChatbot />
+            </UserLayout>
         </>
     )
 }

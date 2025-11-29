@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, use } from "react";
 
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import Container from '@/Components/Container';
@@ -13,6 +13,21 @@ import Swal from "sweetalert2";
 export default function Create({auth}) {
 
     const { categories, tickets, regions } = usePage().props;
+    const [regionOptions, setRegionOptions] = useState(regions);
+
+
+    useEffect(() => {
+        const fetchRegions = async () => {
+            try {
+                const response = await fetch("https://wilayah.id/api/regencies/34.json");
+                const data = await response.json();
+                setRegionOptions(data);
+            } catch (error) {
+                console.error("Error fetching regions:", error);
+            }
+        };
+        fetchRegions();
+    }, []);
 
     //define state with helper inertia
     const {data, setData, post, errors, progress} = useForm({
@@ -191,7 +206,7 @@ export default function Create({auth}) {
 
                  {/* Region Select */}
                 <label className="block">Region</label>
-                <select value={data.region_id} onChange={e =>setData('region_id', e.target.value)} className="w-full p-2 border rounded-sm mb-4">
+                <select value={regionOptions} onChange={e =>setData('region_id', e.target.value)} className="w-full p-2 border rounded-sm mb-4">
                     <option value="">Select Region</option>
                     {regions.map((region) => (
                         <option key={region.id} value={region.id}>{region.name}</option>
