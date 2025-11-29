@@ -24,7 +24,7 @@ export default function Welcome({categories, auth }) {
                         className="relative flex flex-col items-center w-full h-[60vh] homepage-hero font-poppins"
                         >
                         <h1
-                            className="text-5xl font-semibold text-[#38505C] text-center mt-48 sm:mt-64"
+                            className="text-5xl font-semibold text-[#01478d] text-center mt-48 sm:mt-64"
                         >
                             Find The Best Vacation Spots
                         </h1>
@@ -37,7 +37,7 @@ export default function Welcome({categories, auth }) {
                                 Find Destinations
                             </p>
                             <p className="text-gray-500">
-                                Discover the Best Destination in Indonesia
+                                Discover the Best Destination in Yogyakarta
                             </p>
                             </div>
                             <form 

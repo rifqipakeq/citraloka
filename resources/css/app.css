@@ -6,8 +6,10 @@
 @source '../../storage/framework/views/*.php';
 
 @theme extend {
-  --color-primary-opaque: #37afe1;
-  --color-primary-hover: #2499c9;
+  /* --color-primary-opaque: #37afe1; */
+  --color-primary-opaque: #01478d;
+  /* --color-primary-hover: #2499c9; */
+  --color-primary-hover: #012b56;
   --color-primary-transparent: #e5f6ff;
   --color-xgreen: #6ec207;
   --color-xorange: #ff8133;
@@ -32,7 +34,6 @@
     border-color: var(--color-gray-200, currentcolor);
   }
 
-
   progress {
     @apply appearance-none bg-gray-200 rounded-lg h-1;
   }
@@ -49,21 +50,21 @@
 
 @layer components {
   .homepage-hero {
-    background-image: url("/assets/landing_hero.svg");
+    background-image: url("/assets/landing_hero_1.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
   }
 
   .locations-hero {
-    background-image: url("/assets/location_banner.svg");
+    background-image: url("/assets/location_banner_1.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
   }
 
   .details-hero {
-    background-image: url("/assets/detail_banner.svg");
+    background-image: url("/assets/detail_banner_1.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -75,7 +76,7 @@
   }
 
   .map-popup p {
-      margin: 0 !important;
+    margin: 0 !important;
   }
 
   .current-location-marker .pulse {
@@ -101,16 +102,16 @@
 
   @keyframes pulse {
     0% {
-        transform: scale(0.5);
-        opacity: 0.5;
+      transform: scale(0.5);
+      opacity: 0.5;
     }
     50% {
-        transform: scale(1.5);
-        opacity: 0;
+      transform: scale(1.5);
+      opacity: 0;
     }
     100% {
-        transform: scale(0.5);
-        opacity: 0;
+      transform: scale(0.5);
+      opacity: 0;
     }
   }
 }
