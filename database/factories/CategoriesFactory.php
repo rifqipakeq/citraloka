@@ -18,7 +18,7 @@ class CategoriesFactory extends Factory
     {
         return [
         'name' => $this->faker->word(),
-        'image' => $this->faker->imageUrl(),
+        'image' => 'https://vvxtkkwbymnvrulgaoce.supabase.co/storage/v1/object/public/category_images/category_image_example.jpeg',
         ];
     }
 }

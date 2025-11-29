@@ -78,11 +78,16 @@ class LocationsController extends Controller implements HasMiddleware
     
         $imagePaths = [];
     
-        foreach ($request->file('image') as $imageFile) {
-            $path = $imageFile->store('images', 'public');
-            $imagePaths[] = $path;
-        }
+        // foreach ($request->file('image') as $imageFile) {
+        //     $path = $imageFile->store('images', 'public');
+        //     $imagePaths[] = $path;
+        // }
     
+        foreach ($request->file('image') as $imageFile) {
+                $path = $imageFile->store('images', 'supabase');
+                $imagePaths[] = $path;
+        }
+
         // Store location data
         $location = Locations::create([
             'title' => $request->title,

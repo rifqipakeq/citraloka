@@ -150,6 +150,7 @@ class LocationsController extends Controller
             'max_distance_km' => $request->input('max_distance_km', 10),
         ];
 
+
         Log::info('User Location: ' . print_r($userLocation, true));
         $R = 6371;
         $locations = Locations::selectRaw("

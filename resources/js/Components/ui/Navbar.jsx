@@ -2,12 +2,12 @@ import { Link } from "@inertiajs/react";
 
 export default function Navbar({ auth }) {
     return (
-        <header className="fixed top-0 left-0 w-full z-50 px-4">
-            <nav className="container mx-auto flex items-center bg-white justify-between px-8 py-3.5 font-poppins rounded-full mt-8">
+        <header className="fixed top-0 left-0 w-full z-50 px-4 ">
+            <nav className="container mx-auto flex items-center bg-white justify-between px-8 py-3.5 font-poppins rounded-full mt-8 h-[40px]">
                 <Link href={route("home")}>
-                    <img src="/assets/logofix.png" alt="Logo" className="h-10 w-auto" />
+                    <img src="/assets/logofix.png" alt="Logo" className="h-5 w-auto" />
                 </Link>
-                <ul className="flex gap-12 items-center text-gray-500 text-lg">
+                <ul className="flex gap-12 items-center text-gray-500">
                     <li>
                         <Link
                             href={route("home")}
@@ -60,12 +60,23 @@ export default function Navbar({ auth }) {
                         />
                     </Link>
                 ) : (
-                    <Link
-                        href={route("login")}
-                        className="px-16 py-4 bg-primary-opaque rounded-full text-white font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer"
-                    >
-                        Login
-                    </Link>
+                    <>
+                    <div>
+                        <Link
+                            href={route("login")}
+                            className="px-6 bg-primary-opaque rounded-full text-white font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer"
+                        >
+                            Login
+                        </Link>
+                        <Link
+                            // href={route("signup")}
+                            className="px-6 bg-primary-opaque rounded-full text-white font-semibold hover:bg-primary-hover transition-all hover:cursor-pointer"
+                        >
+                            Daftar
+                        </Link>
+                    </div>
+                    
+                    </>
                 )}
             </nav>
         </header>

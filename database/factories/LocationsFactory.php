@@ -22,7 +22,7 @@ class LocationsFactory extends Factory
         $yogyakartaMinLng = 110.00; // Batas Barat (lebih dekat ke Kulon Progo)
         $yogyakartaMaxLng = 110.80; 
         return [
-            'image' => "https://cdn.idetrips.com/wp-content/uploads/2018/05/Taman-Sari-Yogyakarta-1119x840.jpg",
+            'image' => "https://vvxtkkwbymnvrulgaoce.supabase.co/storage/v1/object/public/location_images/example.jpg",
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
             'officehours' => '09:00 - 17:00',

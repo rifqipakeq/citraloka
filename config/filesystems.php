@@ -57,6 +57,13 @@ return [
             'throw' => false,
         ],
 
+        'supabase' => [
+            'driver' => 'supabase',
+            'key' => env('SUPABASE_ACCESS_KEY_ID'),
+            'secret' => env('SUPABASE_SECRET_ACCESS_KEY'),
+            'bucket' => env('SUPABASE_BUCKET'),
+        ]
+
     ],
 
     /*

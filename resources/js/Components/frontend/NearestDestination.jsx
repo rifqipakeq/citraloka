@@ -12,7 +12,6 @@ export default function NearestLocations() {
     const isLoading = false;
     const mapRef = useRef(null);
 
-
     const getUserLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(

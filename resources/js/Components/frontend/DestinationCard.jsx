@@ -17,7 +17,8 @@ export default function DestinationCard({ item, action }) {
         >
             <div className="relative">
                 <img
-                    src={item.image_urls[0]}
+                    // src={item.image_urls[0]}
+                    src={item.image}
                     alt={item.title}
                     className="w-full rounded-2xl overflow-hidden aspect-video object-cover"
                 />
