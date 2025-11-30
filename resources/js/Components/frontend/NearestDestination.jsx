@@ -103,36 +103,19 @@ export default function NearestLocations() {
 
 
     return (
-        <div className="bg-gradient-to-br from-blue-50 to-sky-100 rounded-2xl shadow-xl border border-blue-200">
+        <div className="rounded-2xl shadow-xl border border-blue-200">
             <div>
-                <header className="p-6 bg-gradient-to-r from-sky-400 to-blue-500 rounded-t-2xl">
-                    <h2 className="text-4xl font-bold text-white drop-shadow-lg">Wisata Terdekat</h2>
-                    <p className="text-blue-100 mt-2">Temukan destinasi menarik di sekitar Anda</p>
+                <header className="p-2 bg-white text-black rounded-t-2xl flex flex-col items-center justify-center drop-shadow-md">
+                    <h2 className="text-lg font-semibold mb-1.5 text-primary-opaque">Nearest Destinations</h2>
+                    <p className="text-gray-500 mt-2">Discover exciting destinations around you</p>
                 </header>
             </div>
-            {/* <div className="p-6 flex flex-wrap gap-3 justify-center bg-white/50 backdrop-blur-sm">
-                <button className="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
-                    500 Meter
-                </button>
-                <button className="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
-                    1 Kilometer
-                </button>
-                <button className="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
-                    5 Kilometer
-                </button>
-                <button className="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
-                    10 Kilometer
-                </button>
-                <button className="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
-                    20 Kilometer
-                </button>
-            </div> */}
-            <div className='flex p-6 gap-6 justify-center items-stretch'>
+            <div className='flex p-6 justify-center'>
                 <div className='w-1/2 relative bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg'>
-                    <Carousel className="w-full">
+                    <Carousel className="flex items-center justify-center">
                         <CarouselContent>
                             {locations.map(location => (
-                                <CarouselItem key={location.id} className="pl-4">
+                                <CarouselItem key={location.id} className="flex items-center justify-center">
                                     <LocationCard location={location} />
                                 </CarouselItem>
                             ))}

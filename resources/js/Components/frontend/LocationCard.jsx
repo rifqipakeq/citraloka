@@ -1,7 +1,7 @@
 const LocationCard = ({ location }) => (
     <div
         className="
-            relative w-full h-[600px] rounded-4xl shadow-xl overflow-hidden 
+            relative w-[400px] h-[600px] rounded-4xl shadow-xl overflow-hidden 
             hover:shadow transition duration-300 ease-in-out
             group 
         "
@@ -26,17 +26,15 @@ const LocationCard = ({ location }) => (
                 absolute inset-0 
                 flex flex-col justify-end
                 text-white 
-                /* Wadah Flex untuk Konten Footer */
                 items-start
             "
         >
             <div
                 className="
                     h-60
-                    
                     w-full p-4 rounded-xl 
-                    backdrop-blur-md 
-                    bg-white/10 
+                    backdrop-blur-sm 
+                    bg-white/1 
                     bg-gradient-to-t from-black/60 to-black/20
                     border border-white/20 
                 "
@@ -46,7 +44,7 @@ const LocationCard = ({ location }) => (
                 </h3>
 
                 <p className="text-lg font-semibold mt-2 drop-shadow-md">
-                    {location.distance.toFixed(2)} km dari Anda
+                    {location.distance.toFixed(2)} km from you
                 </p>
 
                 <p className="text-sm text-gray-200 mt-1 drop-shadow-sm">
@@ -70,12 +68,12 @@ const LocationCard = ({ location }) => (
                                 w-[300px]text-center
                             "
                         >
-                            Lihat di Google Maps
+                            View on Google Maps
                         </a>
                     </button>
                     <button>
                         <a
-                            href={`/destinations/${location.id}`}
+                            href={`/location/${location.id}`}
                             className="
                                 inline-block mt-4 ml-4 px-4 py-2 
                                 bg-green-500 hover:bg-green-600 
@@ -87,7 +85,7 @@ const LocationCard = ({ location }) => (
                                 w-[300px]text-center
                             "
                         >
-                            Kunjungi Halaman Destinasi
+                            Visit Destination Page
                         </a>
                     </button>
                 </div>
