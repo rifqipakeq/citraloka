@@ -17,8 +17,8 @@ class LocationsFactory extends Factory
      */
     public function definition(): array
     {
-        $yogyakartaMinLat = -8.10;  // Batas Selatan (lebih dekat ke Samudra Hindia)
-        $yogyakartaMaxLat = -7.50;  // Batas Utara (lebih dekat ke perbatasan Jawa Tengah)
+        $yogyakartaMinLat = -8.10;  
+        $yogyakartaMaxLat = -7.50;  
         $yogyakartaMinLng = 110.00; // Batas Barat (lebih dekat ke Kulon Progo)
         $yogyakartaMaxLng = 110.80; 
         return [
@@ -26,7 +26,7 @@ class LocationsFactory extends Factory
             'title' => $this->faker->sentence(),
             'description' => $this->faker->paragraph(),
             'officehours' => '09:00 - 17:00',
-            'category_id' => \App\Models\Categories::factory(),
+            'category_id' => $this->faker->numberBetween(1, 5),
             'region_id' => Region::inRandomOrder()->first()->id,
             'phone' => $this->faker->phoneNumber(),
             'address' => $this->faker->address(),

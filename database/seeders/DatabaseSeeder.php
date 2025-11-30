@@ -21,11 +21,35 @@ class DatabaseSeeder extends Seeder
         $this->call(UserTableSeeder::class);
         $this->call(ApiRegionSeeder::class);
 
-
-        Locations::factory(50)->create();
-        Categories::factory(5)->create();
-        TicketCategory::factory(5)->create();
-        Ticket::factory(20)->create();
         
+        // Create specific categories
+        Categories::create([
+            'name' => 'history',
+            'image' => 'https://vvxtkkwbymnvrulgaoce.supabase.co/storage/v1/object/public/category_images/category_history.svg'
+        ]);
+        
+        Categories::create([
+            'name' => 'artculture',
+            'image' => 'https://vvxtkkwbymnvrulgaoce.supabase.co/storage/v1/object/public/category_images/category_artculture.svg'
+        ]);
+        
+        Categories::create([
+            'name' => 'mountain',
+            'image' => 'https://vvxtkkwbymnvrulgaoce.supabase.co/storage/v1/object/public/category_images/category_mountain.svg'
+        ]);
+        
+        Categories::create([
+            'name' => 'shop',
+            'image' => 'https://vvxtkkwbymnvrulgaoce.supabase.co/storage/v1/object/public/category_images/category_shop.svg'
+        ]);
+        
+        Categories::create([
+            'name' => 'themepark',
+            'image' => 'https://vvxtkkwbymnvrulgaoce.supabase.co/storage/v1/object/public/category_images/category_themepark.svg'
+        ]);
+        
+        TicketCategory::factory(3)->create();
+        Ticket::factory(20)->create();
+        Locations::factory(20)->create();
     }
 }

@@ -19,7 +19,7 @@ class TicketFactory extends Factory
         return [
         'ticket_code' => $this->faker->unique()->bothify('TICKET-####'),
         'name' => $this->faker->word(),
-        'ticket_category_id' => \App\Models\TicketCategory::factory(),
+        'ticket_category_id' => $this->faker->numberBetween(1, 3),
         'price_per_pack' => $this->faker->numberBetween(10000, 100000),
         'qty' => $this->faker->numberBetween(1, 100),
         ];

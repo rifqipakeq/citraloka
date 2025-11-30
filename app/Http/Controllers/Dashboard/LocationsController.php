@@ -40,7 +40,7 @@ class LocationsController extends Controller implements HasMiddleware
     public function create()
     {
         $categories = Categories::orderBy('name', 'asc')->get();
-    
+
         $tickets = Ticket::with('category')
             ->orderByRaw('CAST(SUBSTRING_INDEX(ticket_code, "T", -1) AS UNSIGNED) ASC')
             ->get()
@@ -49,7 +49,7 @@ class LocationsController extends Controller implements HasMiddleware
             });
 
         $regions = Region::select('id', 'name')->get();
-    
+
         return inertia('Locations/Create', [
             'categories' => $categories,
             'tickets' => $tickets,
@@ -75,21 +75,17 @@ class LocationsController extends Controller implements HasMiddleware
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
         ]);
-    
+
         $imagePaths = [];
-    
-        // foreach ($request->file('image') as $imageFile) {
-        //     $path = $imageFile->store('images', 'public');
-        //     $imagePaths[] = $path;
-        // }
-    
+
         foreach ($request->file('image') as $imageFile) {
-                $path = $imageFile->store('images', 'supabase');
-                $imagePaths[] = $path;
+            $path = $imageFile->store('images', 'public');
+            $imagePaths[] = $path;
         }
 
         // Store location data
         $location = Locations::create([
+
             'title' => $request->title,
             'description' => $request->description,
             'officehours' => $request->officehours,
@@ -101,27 +97,27 @@ class LocationsController extends Controller implements HasMiddleware
             'longitude' => $request->longitude,
             'image' => implode('|', $imagePaths),
         ]);
-    
+
         $ticketIds = $request->ticket_ids;
 
         if (!is_array($ticketIds)) {
             return back()->withErrors(['ticket_ids' => 'Invalid ticket selection.']);
         }
-        
+
         $syncData = [];
 
         foreach ($ticketIds as $category => $ticketId) {
             $ticket = Ticket::find($ticketId);
-            
+
             if ($ticket) {
                 $syncData[$ticket->id] = [
                     'ticket_category_id' => $ticket->ticket_category_id
                 ];
             }
         }
-        
+
         $location->ticket()->attach($syncData);
-    
+
         return to_route('locations.index');
     }
 
@@ -193,25 +189,25 @@ class LocationsController extends Controller implements HasMiddleware
             'longitude' => $request->longitude,
             'image' => implode('|', $newImagePaths),
         ]);
-    
+
         $ticketIds = $request->ticket_ids;
 
         if (!is_array($ticketIds)) {
             return back()->withErrors(['ticket_ids' => 'Invalid ticket selection.']);
         }
-        
+
         $syncData = [];
 
         foreach ($ticketIds as $category => $ticketId) {
             $ticket = Ticket::find($ticketId);
-            
+
             if ($ticket) {
                 $syncData[$ticket->id] = [
                     'ticket_category_id' => $ticket->ticket_category_id
                 ];
             }
         }
-        
+
         $location->ticket()->sync($syncData);
 
         return to_route('locations.index');
@@ -234,5 +230,4 @@ class LocationsController extends Controller implements HasMiddleware
 
         return back();
     }
-
 }

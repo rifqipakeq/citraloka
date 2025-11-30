@@ -110,7 +110,7 @@ export default function NearestLocations() {
                     <p className="text-blue-100 mt-2">Temukan destinasi menarik di sekitar Anda</p>
                 </header>
             </div>
-            <div className="p-6 flex flex-wrap gap-3 justify-center bg-white/50 backdrop-blur-sm">
+            {/* <div className="p-6 flex flex-wrap gap-3 justify-center bg-white/50 backdrop-blur-sm">
                 <button className="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
                     500 Meter
                 </button>
@@ -126,7 +126,7 @@ export default function NearestLocations() {
                 <button className="px-4 py-2 bg-sky-500 hover:bg-sky-600 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition duration-300 transform hover:scale-105">
                     20 Kilometer
                 </button>
-            </div>
+            </div> */}
             <div className='flex p-6 gap-6 justify-center items-stretch'>
                 <div className='w-1/2 relative bg-white/70 backdrop-blur-sm rounded-xl p-4 shadow-lg'>
                     <Carousel className="w-full">

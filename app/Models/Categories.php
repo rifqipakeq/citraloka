@@ -13,7 +13,7 @@ class Categories extends Model
 
     protected $fillable = [
        'name',
-    'image'
+     'image'
     ];
 
     protected $appends = ['image_url'];
